@@ -8,13 +8,16 @@
 <title>EULLIYAN’S | Masjid Prayer Board</title>
 
 <style>
+
 :root {
-  --bg: #102b27;
-  --panel: #193a34;
-  --gold: #e9c77b;
+  --bg: #ffffff;
+  --panel: #087a49;
+  --panel-dark: #05663d;
+  --green: #087a49;
+  --gold: #ffffff;
   --white: #ffffff;
-  --muted: #b8cbc3;
-  --green: #75d6a3;
+  --muted: #e2f4eb;
+  --green-light: #e0f3eb;
 }
 
 * {
@@ -25,11 +28,9 @@
 
 body {
   min-height: 100vh;
-  padding: 22px;
-  color: var(--white);
-  background:
-    radial-gradient(circle at top, #285447, transparent 48%),
-    var(--bg);
+  padding: 12px;
+  color: #087a49;
+  background: #ffffff;
   font-family: Arial, sans-serif;
 }
 
@@ -42,180 +43,228 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   flex-wrap: wrap;
-  padding: 15px 0 25px;
-  border-bottom: 1px solid #ffffff20;
+  padding: 10px 0 15px;
+  border-bottom: 1px solid #dcece4;
 }
 
 .brand {
-  color: var(--gold);
-  font-size: 23px;
+  color: #087a49;
+  font-size: 22px;
   font-weight: 900;
   letter-spacing: 2px;
 }
 
 .brand small {
   display: block;
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 11px;
+  margin-top: 3px;
+  color: #398866;
+  font-size: 10px;
   letter-spacing: 1px;
 }
 
 select {
-  padding: 10px 14px;
-  border: 1px solid #ffffff30;
-  border-radius: 9px;
-  background: var(--panel);
+  padding: 8px 12px;
+  border: 1px solid #b8ddca;
+  border-radius: 8px;
+  background: #087a49;
   color: white;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .mosque {
   text-align: center;
-  padding: 32px 10px 20px;
+  padding: 18px 8px 12px;
 }
 
 .mosque-icon {
-  font-size: 45px;
-  margin-bottom: 12px;
+  font-size: 34px;
+  margin-bottom: 6px;
 }
 
 .mosque h1 {
-  font-size: clamp(25px, 5vw, 40px);
-  color: var(--gold);
-  margin-bottom: 9px;
+  font-size: clamp(23px, 4vw, 34px);
+  color: #087a49;
+  margin-bottom: 5px;
 }
 
 .mosque p {
-  color: var(--muted);
-  font-size: 14px;
+  color: #398866;
+  font-size: 13px;
 }
 
 .clock-card {
   text-align: center;
-  background: linear-gradient(145deg, #21483e, #16362f);
-  border: 1px solid #ffffff20;
-  border-radius: 20px;
-  padding: 28px 15px;
-  margin: 18px 0;
-  box-shadow: 0 15px 35px #00000025;
+  background: linear-gradient(120deg, #087a49, #07965b);
+  border: none;
+  border-radius: 13px;
+  padding: 15px 12px;
+  margin: 10px 0;
+  box-shadow: 0 3px 9px #087a4920;
 }
 
 .clock {
-  font-size: clamp(42px, 10vw, 75px);
+  font-size: clamp(36px, 8vw, 60px);
   font-weight: 800;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   color: white;
   font-variant-numeric: tabular-nums;
 }
 
 .date {
-  margin-top: 12px;
-  color: var(--muted);
-  font-size: 15px;
+  margin-top: 5px;
+  color: #e2f4eb;
+  font-size: 13px;
 }
 
 .next-prayer {
-  margin-top: 22px;
-  color: var(--green);
-  font-size: 16px;
+  margin-top: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .countdown {
-  margin-top: 8px;
-  font-size: clamp(25px, 6vw, 38px);
+  margin-top: 4px;
+  font-size: clamp(24px, 5vw, 34px);
   font-weight: 800;
-  color: var(--gold);
+  color: white;
 }
 
 .section-title {
   text-align: center;
-  color: var(--gold);
-  font-size: 22px;
-  margin: 30px 0 17px;
+  color: #087a49;
+  font-size: 19px;
+  margin: 17px 0 10px;
 }
 
 .prayer-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
+  gap: 8px;
 }
 
 .prayer-card {
-  background: var(--panel);
-  border: 1px solid #ffffff15;
-  border-radius: 14px;
-  padding: 20px 8px;
+  background: #087a49;
+  border: 1px solid #087a49;
+  border-radius: 10px;
+  padding: 12px 5px;
   text-align: center;
   transition: .2s;
+  box-shadow: 0 2px 6px #087a4920;
 }
 
 .prayer-card.active {
-  border: 2px solid var(--gold);
-  background: #315749;
-  transform: translateY(-4px);
+  border: 2px solid #a7e6c2;
+  background: #05663d;
+  transform: translateY(-2px);
 }
 
 .prayer-icon {
-  font-size: 25px;
-  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 7px;
+  border-radius: 50%;
+  background: white;
+  font-size: 21px;
 }
 
 .prayer-name {
-  font-size: 16px;
+  color: white;
+  font-size: 14px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .prayer-time {
-  color: var(--gold);
-  font-size: 21px;
+  color: white;
+  font-size: clamp(14px, 2vw, 19px);
   font-weight: 800;
   white-space: nowrap;
 }
 
 .note {
   text-align: center;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.7;
-  margin: 25px 0;
+  color: #087a49;
+  background: #e0f3eb;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 13px 0;
 }
 
 footer {
   text-align: center;
-  padding: 22px 10px;
-  border-top: 1px solid #ffffff20;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.8;
+  padding: 12px 8px;
+  border-top: 1px solid #dcece4;
+  color: #398866;
+  font-size: 11px;
+  line-height: 1.7;
 }
 
 footer strong {
-  color: var(--gold);
+  color: #087a49;
   letter-spacing: 1px;
 }
 
 @media(max-width: 650px) {
-  body { padding: 14px; }
+  body {
+    padding: 10px;
+  }
 
   .prayer-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .prayer-card {
+    padding: 10px 2px;
+    border-radius: 8px;
+  }
+
+  .prayer-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+
+  .prayer-name {
+    font-size: 11px;
+  }
+
+  .prayer-time {
+    font-size: 11px;
+  }
+
+  .mosque {
+    padding: 13px 5px 10px;
+  }
+
+  .clock-card {
+    padding: 12px 8px;
+  }
+
+  .note {
+    margin: 10px 0;
+  }
+}
+
+@media(max-width: 360px) {
+  .prayer-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .prayer-card:last-child {
-    grid-column: span 2;
+    grid-column: auto;
   }
-
-  .clock-card { padding: 25px 10px; }
 }
 
-@media(min-width: 900px) {
-  body { padding-top: 30px; }
-  .prayer-card { padding: 28px 10px; }
-}
 </style>
 </head>
 
