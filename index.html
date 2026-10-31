@@ -482,10 +482,10 @@ html[dir="rtl"] .schedule-prayer {
 
   <!-- LANGUAGE SWITCH -->
   <nav class="languages" aria-label="Language">
-    <button class="active" data-lang="en">English</button>
-    <button data-lang="bn">বাংলা</button>
-    <button data-lang="ar">العربية</button>
-  </nav>
+  <button class="active" id="languageButton">
+    English
+  </button>
+</nav>
 
   <!-- MAIN BOARD -->
   <main class="main">
@@ -662,7 +662,16 @@ const prayerTimes = [
   { key: "maghrib", time: "17:45", icon: "🌇" },
   { key: "isha", time: "19:15", icon: "🌃" }
 ];
+// MOSQUE JAMAAT TIMES
+// Change these values when the mosque confirms its times.
 
+const jamaatTimes = {
+  fajr: "--:--",
+  dhuhr: "--:--",
+  asr: "--:--",
+  maghrib: "--:--",
+  isha: "--:--"
+};
 const translations = {
   en: {
     next: "NEXT PRAYER",
@@ -857,17 +866,26 @@ function updateNextPrayer(now) {
 }
 
 // Language button actions
-document.querySelectorAll(".languages button").forEach(button => {
-  button.addEventListener("click", () => {
-    currentLanguage = button.dataset.lang;
-    updateLanguage();
-    updateClock();
-  });
-});
+const languageButton =
+  document.getElementById("languageButton");
 
-// Start the board
-updateLanguage();
-updateClock();
+const languageOrder = ["en", "bn", "ar"];
+
+languageButton.addEventListener("click", () => {
+  const currentIndex = languageOrder.indexOf(currentLanguage);
+
+  currentLanguage =
+    languageOrder[(currentIndex + 1) % languageOrder.length];
+
+  languageButton.textContent = {
+    en: "English",
+    bn: "বাংলা",
+    ar: "العربية"
+  }[currentLanguage];
+
+  updateLanguage();
+  updateClock();
+});
 
 setInterval(updateClock, 1000);
 </script>
