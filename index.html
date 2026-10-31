@@ -190,28 +190,35 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+
 /* PRAYER CARDS */
 
 .prayer-heading {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 800;
   color: var(--mint);
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 .prayer-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
+  gap: 10px;
+  width: 100%;
 }
 
 .prayer-card {
   min-width: 0;
-  padding: 13px 3px;
-  border-radius: 14px;
+  min-height: 112px;
+  padding: 19px 4px;
+  border-radius: 15px;
   background: rgba(255,255,255,.09);
   border: 1px solid rgba(255,255,255,.13);
   transition: .2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .prayer-card.active {
@@ -221,19 +228,19 @@ body {
 }
 
 .prayer-icon {
-  font-size: clamp(17px, 4vw, 25px);
-  margin-bottom: 7px;
+  font-size: clamp(20px, 5vw, 27px);
+  margin-bottom: 9px;
 }
 
 .prayer-name {
-  font-size: clamp(10px, 2.5vw, 15px);
+  font-size: clamp(11px, 2.8vw, 15px);
   font-weight: 800;
   white-space: nowrap;
 }
 
 .prayer-time {
-  font-size: clamp(10px, 2.4vw, 14px);
-  margin-top: 8px;
+  font-size: clamp(11px, 2.7vw, 15px);
+  margin-top: 10px;
   color: var(--mint);
   white-space: nowrap;
 }
