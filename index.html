@@ -262,46 +262,47 @@ body {
   margin-bottom: 15px;
 }
 
-.schedule-header,
-.schedule-row {
+/* JAMAAT TIME BOXES */
+
+.jamaat-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
-  gap: 5px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
 }
 
-.schedule-header {
-  color: var(--mint);
-  font-size: 11px;
+.jamaat-card {
+  min-width: 0;
+  padding: 15px 4px;
+  border-radius: 13px;
+  background: rgba(0,183,195,.13);
+  border: 1px solid rgba(0,183,195,.35);
+}
+
+.jamaat-card .schedule-prayer {
+  color: white;
+  font-size: clamp(10px, 2.5vw, 14px);
   font-weight: 800;
-  padding: 9px 5px;
-  border-bottom: 1px solid rgba(255,255,255,.2);
+  white-space: nowrap;
 }
 
-.schedule-row {
-  padding: 12px 5px;
-  border-bottom: 1px solid rgba(255,255,255,.12);
-}
-
-.schedule-row:last-child {
-  border-bottom: none;
-}
-
-.schedule-prayer {
-  text-align: left;
+.jamaat-time {
+  color: #71f5e4;
+  font-size: clamp(11px, 2.5vw, 15px);
   font-weight: 800;
-  font-size: 13px;
-}
-
-.schedule-time {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--mint);
+  margin-top: 9px;
+  white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 
-.schedule-jamaat {
-  color: #71f5e4;
+@media (max-width: 420px) {
+  .jamaat-grid {
+    gap: 5px;
+  }
+
+  .jamaat-card {
+    padding: 12px 2px;
+    border-radius: 10px;
+  }
 }
 
 .schedule-note {
@@ -538,62 +539,51 @@ html[dir="rtl"] .schedule-prayer {
       </div>
 
     </section>
-    <!-- FULL PRAYER SCHEDULE -->
-    <section class="schedule-section">
+    <!-- JAMAAT TIME SCHEDULE -->
+<section class="schedule-section">
 
-      <div class="schedule-title" id="scheduleTitle">
-        PRAYER SCHEDULE
-      </div>
+  <div class="schedule-title" id="scheduleTitle">
+    JAMAAT TIMES
+  </div>
 
-      <div class="schedule-subtitle" id="scheduleSubtitle">
-        AZAN & JAMAAT TIMES
-      </div>
+  <div class="schedule-subtitle" id="scheduleSubtitle">
+    DAILY CONGREGATION PRAYER TIMES
+  </div>
 
-      <div class="schedule-header">
-        <div id="prayerColumn">PRAYER</div>
-        <div>AZAN</div>
-        <div>JAMAAT</div>
-      </div>
+  <div class="jamaat-grid">
 
-      <div id="scheduleRows">
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="fajr">Fajr</div>
+      <div class="jamaat-time" id="jamaat-fajr">--:--</div>
+    </div>
 
-        <div class="schedule-row">
-          <div class="schedule-prayer">Fajr</div>
-          <div class="schedule-time">05:00 AM</div>
-          <div class="schedule-time schedule-jamaat">--:--</div>
-        </div>
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="dhuhr">Dhuhr</div>
+      <div class="jamaat-time" id="jamaat-dhuhr">--:--</div>
+    </div>
 
-        <div class="schedule-row">
-          <div class="schedule-prayer">Dhuhr</div>
-          <div class="schedule-time">12:15 PM</div>
-          <div class="schedule-time schedule-jamaat">--:--</div>
-        </div>
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="asr">Asr</div>
+      <div class="jamaat-time" id="jamaat-asr">--:--</div>
+    </div>
 
-        <div class="schedule-row">
-          <div class="schedule-prayer">Asr</div>
-          <div class="schedule-time">03:30 PM</div>
-          <div class="schedule-time schedule-jamaat">--:--</div>
-        </div>
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="maghrib">Maghrib</div>
+      <div class="jamaat-time" id="jamaat-maghrib">--:--</div>
+    </div>
 
-        <div class="schedule-row">
-          <div class="schedule-prayer">Maghrib</div>
-          <div class="schedule-time">05:45 PM</div>
-          <div class="schedule-time schedule-jamaat">--:--</div>
-        </div>
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="isha">Isha</div>
+      <div class="jamaat-time" id="jamaat-isha">--:--</div>
+    </div>
 
-        <div class="schedule-row">
-          <div class="schedule-prayer">Isha</div>
-          <div class="schedule-time">07:15 PM</div>
-          <div class="schedule-time schedule-jamaat">--:--</div>
-        </div>
+  </div>
 
-      </div>
+  <div class="schedule-note" id="scheduleNote">
+    Jamaat times are set by the local mosque.
+  </div>
 
-      <div class="schedule-note" id="scheduleNote">
-        Jamaat times are set by the local mosque.
-      </div>
-
-    </section>
+</section>
   </main>
 
   <div class="notice" id="notice">
