@@ -1012,20 +1012,28 @@ function updateClock() {
   updateNextPrayer();
 }
 
+
 function updateNextPrayer() {
   const now = new Date();
-  let next = null;
+  let nextPrayer = null;
+  let nextPrayerDate = null;
 
   for (const prayer of prayerTimes) {
     const prayerDate = getPrayerDate(prayer.time);
 
     if (prayerDate > now) {
-      next = prayer;
+      nextPrayer = prayer;
+      nextPrayerDate = prayerDate;
       break;
     }
   }
 
-  if (!next) next = prayerTimes[0];
+  // সব নামাজ শেষ হলে পরের দিনের ফজর
+  if (!nextPrayer) {
+    nextPrayer = prayerTimes[0];
+    nextPrayerDate = getPrayerDate(nextPrayer.time);
+    nextPrayerDate.setDate(nextPrayerDate.getDate() + 1);
+  }
 
   const nameElement = document.getElementById("nextPrayerName");
   const timeElement = document.getElementById("nextPrayerTime");
@@ -1039,13 +1047,27 @@ function updateNextPrayer() {
       isha: { en: "ISHA", bn: "এশা", ar: "العشاء" }
     };
 
-    nameElement.textContent = names[next.key][currentLanguage];
+    nameElement.textContent = names[nextPrayer.key][currentLanguage];
   }
 
+  // Countdown হিসাব
   if (timeElement) {
-    timeElement.textContent = formatPrayerTime(next.time);
+    const difference = Math.max(
+      0,
+      Math.floor((nextPrayerDate.getTime() - now.getTime()) / 1000)
+    );
+
+    const hours = Math.floor(difference / 3600);
+    const minutes = Math.floor((difference % 3600) / 60);
+    const seconds = difference % 60;
+
+    timeElement.textContent =
+      String(hours).padStart(2, "0") + ":" +
+      String(minutes).padStart(2, "0") + ":" +
+      String(seconds).padStart(2, "0");
   }
 }
+
 
 function showAdhkar(prayerKey) {
   if (adhkarActive || !adhkarScreen) return;
