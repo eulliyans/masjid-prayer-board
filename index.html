@@ -410,87 +410,6 @@ html[dir="rtl"] .schedule-prayer {
     height: 65px;
   }
 }
-  
-/* ================================
-   AFTER SALAH ADHKAR DISPLAY
-================================ */
-
-.adhkar-screen {
-  display: none;
-  width: 100%;
-  max-width: 1150px;
-  margin: 20px auto;
-  padding: 25px;
-  background: rgba(255,255,255,0.97);
-  border: 2px solid #00b7c3;
-  border-radius: 18px;
-  box-sizing: border-box;
-  color: #103b36;
-  text-align: center;
-}
-
-.adhkar-screen.show {
-  display: block;
-}
-
-.adhkar-title {
-  font-size: clamp(28px, 4vw, 46px);
-  color: #008f96;
-  font-weight: 900;
-  margin-bottom: 8px;
-}
-
-.adhkar-subtitle {
-  font-size: 20px;
-  margin-bottom: 20px;
-  font-weight: 700;
-}
-
-.adhkar-item {
-  padding: 18px 10px;
-  border-bottom: 1px solid #b8e5df;
-}
-
-.adhkar-heading {
-  font-size: 21px;
-  font-weight: 800;
-  margin-bottom: 14px;
-  color: #087d75;
-}
-
-.adhkar-arabic {
-  font-family: "Traditional Arabic", "Noto Naskh Arabic", serif;
-  font-size: clamp(25px, 3.2vw, 38px);
-  line-height: 2;
-  direction: rtl;
-  text-align: center;
-  color: #103b36;
-  overflow-wrap: anywhere;
-}
-
-.adhkar-count {
-  font-size: 17px;
-  color: #008f96;
-  font-weight: 800;
-  margin-top: 8px;
-}
-
-.adhkar-return {
-  font-size: 17px;
-  margin-top: 22px;
-  color: #56736e;
-}
-
-@media (max-width: 600px) {
-  .adhkar-screen {
-    padding: 14px;
-  }
-
-  .adhkar-item {
-    padding: 15px 5px;
-  }
-}
-
 </style>
 </head>
 
@@ -674,131 +593,6 @@ html[dir="rtl"] .schedule-prayer {
 </section>
   </main>
 
-<!-- AFTER SALAH ADHKAR SCREEN -->
-
-<section class="adhkar-screen" id="adhkarScreen">
-
-  <div class="adhkar-title">
-    أذكار بعد الصلاة
-  </div>
-
-  <div class="adhkar-subtitle">
-    After Salah • নামাজের পরের আমল
-  </div>
-
-  <div class="adhkar-item">
-    <div class="adhkar-heading">
-      ১. ইস্তিগফার — ৩ বার
-    </div>
-    <div class="adhkar-arabic">
-      أستغفر الله، أستغفر الله، أستغفر الله.
-    </div>
-  </div>
-
-  <div class="adhkar-item">
-    <div class="adhkar-heading">
-      ২. সালামের দোয়া
-    </div>
-    <div class="adhkar-arabic">
-      اللهم أنت السلام ومنك السلام تباركت يا ذا الجلال والإكرام.
-    </div>
-  </div>
-
-  <div class="adhkar-item">
-    <div class="adhkar-heading">
-      ৩. তাওহিদের জিকির ও দোয়া
-    </div>
-
-    <div class="adhkar-arabic">
-      لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير.
-      <br><br>
-      لا حول ولا قوة إلا بالله، لا إله إلا الله ولا نعبد إلا إياه، له النعمة وله الفضل وله الثناء الحسن.
-      <br><br>
-      لا إله إلا الله مخلصين له الدين ولو كره الكافرون.
-      <br><br>
-      اللهم لا مانع لما أعطيت، ولا معطي لما منعت، ولا ينفع ذا الجد منك الجد.
-    </div>
-  </div>
-
-  <div class="adhkar-item">
-    <div class="adhkar-heading">
-      ৪. তাসবিহ, তাহমিদ ও তাকবির
-    </div>
-
-    <div class="adhkar-arabic">
-      سُبْحَانَ اللَّهِ
-    </div>
-    <div class="adhkar-count">٣٣ مرة</div>
-
-    <div class="adhkar-arabic">
-      الْحَمْدُ لِلَّهِ
-    </div>
-    <div class="adhkar-count">٣٣ مرة</div>
-
-    <div class="adhkar-arabic">
-      اللَّهُ أَكْبَرُ
-    </div>
-    <div class="adhkar-count">٣٣ مرة</div>
-
-    <div class="adhkar-heading">
-      ১০০ পূর্ণ করার দোয়া
-    </div>
-
-    <div class="adhkar-arabic">
-      لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير.
-    </div>
-  </div>
-
-  <div class="adhkar-item">
-    <div class="adhkar-heading">
-      ৫. আয়াতুল কুরসি
-    </div>
-
-    <div class="adhkar-arabic">
-      اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ
-    </div>
-    <div class="adhkar-count">سورة البقرة — الآية ٢٥٥</div>
-  </div>
-
-  <div class="adhkar-item">
-    <div class="adhkar-heading">
-      ৬. সূরা ইখলাস
-    </div>
-    <div class="adhkar-arabic">
-      قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ
-    </div>
-  </div>
-
-  <div class="adhkar-item">
-    <div class="adhkar-heading">
-      ৭. সূরা ফালাক
-    </div>
-    <div class="adhkar-arabic">
-      قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِنْ شَرِّ مَا خَلَقَ ۝ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ
-    </div>
-  </div>
-
-  <div class="adhkar-item">
-    <div class="adhkar-heading">
-      ৮. সূরা নাস
-    </div>
-    <div class="adhkar-arabic">
-      قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ
-    </div>
-  </div>
-
-  <div class="adhkar-count">
-    الإخلاص والفلق والناس
-    <br>
-    ফজর ও মাগরিবের পর ৩ বার, অন্যান্য নামাজের পর ১ বার।
-  </div>
-
-  <div class="adhkar-return">
-    EULLIYAN'S • DIGITAL MOSQUE PRAYER BOARD
-  </div>
-
-</section>
-
   <div class="notice" id="notice">
     Demo prayer times — configure your local mosque timings before public use.
   </div>
@@ -847,20 +641,16 @@ html[dir="rtl"] .schedule-prayer {
     <path d="M0 145 H1200" stroke="#00b7c3" stroke-width="3" opacity=".8"/>
   </svg>
 
-     <footer class="footer">
+  <footer class="footer">
     EULLIYAN'S • DIGITAL MOSQUE PRAYER BOARD
   </footer>
 
 </div>
 
 <script>
-
-/* =====================================
-   EULLIYAN'S PRAYER BOARD
-   DEMO AUTOMATIC ADHKAR SYSTEM
-===================================== */
-
-// JEDDAH DEMO PRAYER TIMES
+/* PRAYER TIMES
+   These are demo values. Replace with local mosque timings.
+*/
 
 const prayerTimes = [
   { key: "fajr", time: "05:08", icon: "🌙" },
@@ -869,294 +659,240 @@ const prayerTimes = [
   { key: "maghrib", time: "17:48", icon: "🌇" },
   { key: "isha", time: "19:18", icon: "🌃" }
 ];
+// MOSQUE JAMAAT TIMES
+// Change these values when the mosque confirms its times.
 
 const jamaatTimes = {
-  fajr: "05:20 AM",
-  dhuhr: "12:30 PM",
-  asr: "03:45 PM",
-  maghrib: "05:50 PM",
-  isha: "07:30 PM"
+  fajr: "--:--",
+  dhuhr: "--:--",
+  asr: "--:--",
+  maghrib: "--:--",
+  isha: "--:--"
 };
-
-const ADHKAR_WAIT_MINUTES = 10;
-const ADHKAR_DISPLAY_MINUTES = 3;
-const ADHKAR_GRACE_MINUTES = 5;
-
-let currentLanguage = "en";
-let adhkarActive = false;
-let completedPrayers = new Set();
-let activeAdhkarTimeout = null;
-
-const mainBoard = document.querySelector(".main");
-const adhkarScreen = document.getElementById("adhkarScreen");
-const notice = document.querySelector(".notice");
-const bottomArt = document.querySelector(".bottom-art");
-const footer = document.querySelector(".footer");
-
 const translations = {
   en: {
-    nextPrayer: "NEXT PRAYER",
-    jamaat: "JAMAAT TIMES",
-    notice: "Please maintain silence inside the mosque.",
-    adhkarTitle: "AFTER PRAYER ADHKAR",
-    returnText: "Returning to Prayer Board soon..."
+    next: "NEXT PRAYER",
+    heading: "DAILY PRAYER TIMES",
+    prayers: {
+      fajr: "Fajr",
+      dhuhr: "Dhuhr",
+      asr: "Asr",
+      maghrib: "Maghrib",
+      isha: "Isha"
+    },
+    notice: "Demo prayer times — configure your local mosque timings before public use."
   },
+
   bn: {
-    nextPrayer: "পরবর্তী নামাজ",
-    jamaat: "জামাতের সময়",
-    notice: "মসজিদের ভিতরে নীরবতা বজায় রাখুন।",
-    adhkarTitle: "নামাজের পরের যিকির",
-    returnText: "শীঘ্রই নামাজ বোর্ডে ফিরে আসবে..."
+    next: "পরবর্তী নামাজ",
+    heading: "দৈনিক নামাজের সময়",
+    prayers: {
+      fajr: "ফজর",
+      dhuhr: "যোহর",
+      asr: "আসর",
+      maghrib: "মাগরিব",
+      isha: "এশা"
+    },
+    notice: "ডেমো নামাজের সময় — ব্যবহারের আগে স্থানীয় মসজিদের সময় সেট করুন।"
   },
+
   ar: {
-    nextPrayer: "الصلاة القادمة",
-    jamaat: "أوقات الإقامة",
-    notice: "يرجى المحافظة على الهدوء داخل المسجد.",
-    adhkarTitle: "أذكار بعد الصلاة",
-    returnText: "سيتم العودة إلى لوحة الصلاة قريباً..."
+    next: "الصلاة القادمة",
+    heading: "مواقيت الصلاة اليومية",
+    prayers: {
+      fajr: "الفجر",
+      dhuhr: "الظهر",
+      asr: "العصر",
+      maghrib: "المغرب",
+      isha: "العشاء"
+    },
+    notice: "أوقات تجريبية — يرجى ضبط مواقيت المسجد المحلي قبل الاستخدام."
   }
 };
 
+let currentLanguage = "en";
+
+const clockElement = document.getElementById("clock");
+const dateElement = document.getElementById("date");
+const nextLabelElement = document.getElementById("nextLabel");
+const nextNameElement = document.getElementById("nextName");
+const countdownElement = document.getElementById("countdown");
+const headingElement = document.getElementById("prayerHeading");
+const noticeElement = document.getElementById("notice");
+function updateJamaatTimes() {
+  Object.keys(jamaatTimes).forEach(key => {
+    const element = document.getElementById("jamaat-" + key);
+
+    if (element) {
+      element.textContent = jamaatTimes[key];
+    }
+  });
+}
 function getLocale() {
   if (currentLanguage === "bn") return "bn-BD";
   if (currentLanguage === "ar") return "ar-SA";
   return "en-US";
 }
 
-function getPrayerDate(time) {
-  const [hours, minutes] = time.split(":").map(Number);
-  const date = new Date();
-  date.setHours(hours, minutes, 0, 0);
-  return date;
-}
+function getPrayerDate(time, baseDate) {
+  const parts = time.split(":");
+  const date = new Date(baseDate);
 
-function updateJamaatTimes() {
-  prayerTimes.forEach(prayer => {
-    const element = document.getElementById("jamaat-" + prayer.key);
-    if (element) {
-      element.textContent = jamaatTimes[prayer.key] || "--:--";
-    }
-  });
+  date.setHours(
+    Number(parts[0]),
+    Number(parts[1]),
+    0,
+    0
+  );
+
+  return date;
 }
 
 function updateLanguage() {
   const t = translations[currentLanguage];
 
-  const nextTitle = document.getElementById("nextPrayerTitle");
-  if (nextTitle) nextTitle.textContent = t.nextPrayer;
-
-  const jamaatTitle = document.getElementById("jamaatTitle");
-  if (jamaatTitle) jamaatTitle.textContent = t.jamaat;
-
-  const noticeText = document.getElementById("noticeText");
-  if (noticeText) noticeText.textContent = t.notice;
-
-  const adhkarTitle = document.getElementById("adhkarTitle");
-  if (adhkarTitle) adhkarTitle.textContent = t.adhkarTitle;
-
-  const returnText = document.getElementById("adhkarReturnText");
-  if (returnText) returnText.textContent = t.returnText;
-
-  const languageButton = document.getElementById("languageButton");
-
-  if (languageButton) {
-    const names = {
-      en: "🌐 English",
-      bn: "🌐 বাংলা",
-      ar: "🌐 العربية"
-    };
-    languageButton.textContent = names[currentLanguage];
-  }
-
   document.documentElement.lang = currentLanguage;
   document.documentElement.dir =
     currentLanguage === "ar" ? "rtl" : "ltr";
+
+  nextLabelElement.textContent = t.next;
+  headingElement.textContent = t.heading;
+  noticeElement.textContent = t.notice;
+
+  document.querySelectorAll(".prayer-card").forEach(card => {
+    const key = card.dataset.prayer;
+    const prayer = prayerTimes.find(item => item.key === key);
+
+    if (!prayer) return;
+
+    card.querySelector(".prayer-name").textContent =
+      t.prayers[key];
+
+    card.querySelector(".prayer-time").textContent =
+      formatPrayerTime(prayer.time);
+  });
+
+  document.querySelectorAll(".languages button").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.lang === currentLanguage
+    );
+  });
 }
 
 function formatPrayerTime(time) {
-  const [hours, minutes] = time.split(":").map(Number);
+  const parts = time.split(":");
+  const hour = Number(parts[0]);
+  const minute = Number(parts[1]);
+
   const date = new Date();
-  date.setHours(hours, minutes, 0, 0);
+  date.setHours(hour, minute, 0, 0);
 
   return date.toLocaleTimeString(getLocale(), {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true
+    hour: "numeric",
+    minute: "2-digit"
   });
 }
 
 function updateClock() {
   const now = new Date();
 
-  const clock = document.getElementById("clock");
-  const dateElement = document.getElementById("date");
-
-  if (clock) {
-    clock.textContent = now.toLocaleTimeString(getLocale(), {
+  clockElement.textContent = now.toLocaleTimeString(
+    getLocale(),
+    {
       hour: "2-digit",
       minute: "2-digit",
-      second: "2-digit",
-      hour12: true
-    });
-  }
+      second: "2-digit"
+    }
+  );
 
-  if (dateElement) {
-    dateElement.textContent = now.toLocaleDateString(getLocale(), {
+  dateElement.textContent = now.toLocaleDateString(
+    getLocale(),
+    {
       weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric"
-    });
-  }
+    }
+  );
 
-  updateNextPrayer();
+  updateNextPrayer(now);
 }
 
-
-function updateNextPrayer() {
-  const now = new Date();
+function updateNextPrayer(now) {
   let nextPrayer = null;
-  let nextPrayerDate = null;
+  let nextDate = null;
 
   for (const prayer of prayerTimes) {
-    const prayerDate = getPrayerDate(prayer.time);
+    const prayerDate = getPrayerDate(prayer.time, now);
 
     if (prayerDate > now) {
       nextPrayer = prayer;
-      nextPrayerDate = prayerDate;
+      nextDate = prayerDate;
       break;
     }
   }
 
-  // সব নামাজ শেষ হলে পরের দিনের ফজর
+  // If all today's prayers have passed, use tomorrow's Fajr.
   if (!nextPrayer) {
     nextPrayer = prayerTimes[0];
-    nextPrayerDate = getPrayerDate(nextPrayer.time);
-    nextPrayerDate.setDate(nextPrayerDate.getDate() + 1);
-  }
-
-  const nameElement = document.getElementById("nextPrayerName");
-  const timeElement = document.getElementById("nextPrayerTime");
-
-  if (nameElement) {
-    const names = {
-      fajr: { en: "FAJR", bn: "ফজর", ar: "الفجر" },
-      dhuhr: { en: "DHUHR", bn: "যোহর", ar: "الظهر" },
-      asr: { en: "ASR", bn: "আসর", ar: "العصر" },
-      maghrib: { en: "MAGHRIB", bn: "মাগরিব", ar: "المغرب" },
-      isha: { en: "ISHA", bn: "এশা", ar: "العشاء" }
-    };
-
-    nameElement.textContent = names[nextPrayer.key][currentLanguage];
-  }
-
-  // Countdown হিসাব
-  if (timeElement) {
-    const difference = Math.max(
-      0,
-      Math.floor((nextPrayerDate.getTime() - now.getTime()) / 1000)
+    nextDate = getPrayerDate(
+      nextPrayer.time,
+      new Date(now.getTime() + 24 * 60 * 60 * 1000)
     );
-
-    const hours = Math.floor(difference / 3600);
-    const minutes = Math.floor((difference % 3600) / 60);
-    const seconds = difference % 60;
-
-    timeElement.textContent =
-      String(hours).padStart(2, "0") + ":" +
-      String(minutes).padStart(2, "0") + ":" +
-      String(seconds).padStart(2, "0");
   }
-}
 
-
-function showAdhkar(prayerKey) {
-  if (adhkarActive || !adhkarScreen) return;
-
-  adhkarActive = true;
-
-  if (mainBoard) mainBoard.style.display = "none";
-  if (notice) notice.style.display = "none";
-  if (bottomArt) bottomArt.style.display = "none";
-  if (footer) footer.style.display = "none";
-
-  adhkarScreen.classList.add("show");
-
-  activeAdhkarTimeout = setTimeout(
-    hideAdhkar,
-    ADHKAR_DISPLAY_MINUTES * 60 * 1000
+  const difference = Math.max(
+    0,
+    nextDate.getTime() - now.getTime()
   );
-}
 
-function hideAdhkar() {
-  if (activeAdhkarTimeout) {
-    clearTimeout(activeAdhkarTimeout);
-    activeAdhkarTimeout = null;
-  }
+  const totalSeconds = Math.floor(difference / 1000);
 
-  if (adhkarScreen) {
-    adhkarScreen.classList.remove("show");
-  }
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-  if (mainBoard) mainBoard.style.display = "";
-  if (notice) notice.style.display = "";
-  if (bottomArt) bottomArt.style.display = "";
-  if (footer) footer.style.display = "";
+  countdownElement.textContent = [
+    String(hours).padStart(2, "0"),
+    String(minutes).padStart(2, "0"),
+    String(seconds).padStart(2, "0")
+  ].join(":");
 
-  adhkarActive = false;
-}
+  nextNameElement.textContent =
+    translations[currentLanguage].prayers[nextPrayer.key];
 
-function checkAdhkarSchedule() {
-  if (adhkarActive) return;
-
-  const now = new Date();
-
-  for (const prayer of prayerTimes) {
-    const prayerDate = getPrayerDate(prayer.time);
-
-    const startTime = new Date(
-      prayerDate.getTime() + ADHKAR_WAIT_MINUTES * 60 * 1000
+  document.querySelectorAll(".prayer-card").forEach(card => {
+    card.classList.toggle(
+      "active",
+      card.dataset.prayer === nextPrayer.key
     );
-
-    const endTime = new Date(
-      startTime.getTime() + ADHKAR_GRACE_MINUTES * 60 * 1000
-    );
-
-    const dayKey = now.toDateString() + "-" + prayer.key;
-
-    if (
-      now >= startTime &&
-      now < endTime &&
-      !completedPrayers.has(dayKey)
-    ) {
-      completedPrayers.add(dayKey);
-      showAdhkar(prayer.key);
-      break;
-    }
-  }
-}
-
-const languageButton = document.getElementById("languageButton");
-
-if (languageButton) {
-  languageButton.addEventListener("click", () => {
-    const languages = ["en", "bn", "ar"];
-    const currentIndex = languages.indexOf(currentLanguage);
-
-    currentLanguage =
-      languages[(currentIndex + 1) % languages.length];
-
-    updateLanguage();
-    updateClock();
   });
 }
 
-updateJamaatTimes();
-updateLanguage();
-updateClock();
+// Language button actions
+const languageButton =
+  document.getElementById("languageButton");
+
+const languageOrder = ["en", "bn", "ar"];
+
+languageButton.addEventListener("click", () => {
+  const currentIndex = languageOrder.indexOf(currentLanguage);
+
+  currentLanguage =
+    languageOrder[(currentIndex + 1) % languageOrder.length];
+
+  languageButton.textContent = {
+  en: "🌐 English",
+  bn: "🌐 বাংলা",
+  ar: "🌐 العربية"
+}[currentLanguage];
+
+  updateLanguage();
+  updateClock();
+});
 
 setInterval(updateClock, 1000);
-setInterval(checkAdhkarSchedule, 1000);
-
 </script>
 
 </body>
