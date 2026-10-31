@@ -484,11 +484,7 @@ html[dir="rtl"] .schedule-prayer {
   <!-- LANGUAGE SWITCH -->
   <nav class="languages" aria-label="Language">
   <button class="active" id="languageButton">
-    • 🌐 English ^
-    • 🌐 বাংলা ^
-    • 🌐 العربية ^
-
-
+     🌐 English 
   </button>
 </nav>
 
@@ -880,10 +876,10 @@ languageButton.addEventListener("click", () => {
     languageOrder[(currentIndex + 1) % languageOrder.length];
 
   languageButton.textContent = {
-    en: "English",
-    bn: "বাংলা",
-    ar: "العربية"
-  }[currentLanguage];
+  en: "🌐 English",
+  bn: "🌐 বাংলা",
+  ar: "🌐 العربية"
+}[currentLanguage];
 
   updateLanguage();
   updateClock();
