@@ -1,697 +1,730 @@
-Apnar mobile screen-er sathe jate akdom perfect mile jay, tar jonno CSS-er container er width ebong padding er kichu nirdisto poriborton kore dewa hoyeche.
-Nicher puro code-ti kop kore apnar GitHub-er index.html file- a paste kore commit kore din:
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Eulliyan's Masjid Prayer Board</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-gradient: linear-gradient(180deg, #f4fbf8 0%, #e1f2ec 100%);
-      --teal-dark: #003831;
-      --teal-mid: #0b5147;
-      --teal-light: #0d6b5e;
-      --teal-accent: #179b88;
-      --gold-accent: #d4af37;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#082b28">
+<title>EULLIYAN'S | Digital Mosque Prayer Board</title>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+:root {
+  --deep: #082b28;
+  --green: #103b36;
+  --cyan: #00b7c3;
+  --mint: #baf5e9;
+  --white: #ffffff;
+  --soft: rgba(255,255,255,.75);
+}
 
-    body {
-      font-family: 'Outfit', 'Noto Sans Bengali', sans-serif;
-      background: #0d2823;
-      color: #333;
-      width: 100vw;
-      min-height: 100vh;
-      overflow-x: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .board-container {
-      width: 100%;
-      max-width: 100%;
-      min-height: 100vh;
-      background: var(--bg-gradient);
-      position: relative;
-      overflow: hidden;
-    }
+html {
+  min-height: 100%;
+  background: var(--deep);
+}
 
-    /* Pattern Overlay */
-    .board-container::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-image: radial-gradient(#0b5147 0.75px, transparent 0.75px);
-      background-size: 16px 16px;
-      opacity: 0.05;
-      pointer-events: none;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  font-family: Arial, sans-serif;
+  color: var(--white);
+  background:
+    radial-gradient(ellipse at 50% 35%, #1b5149 0%, transparent 55%),
+    linear-gradient(145deg, #103b36, #061f1d 80%);
+}
 
-    .content-wrap {
-      padding: 15px 10px;
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+.page {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+}
 
-    /* Top Bar */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
+/* TOP MOSQUE SILHOUETTE */
 
-    .brand-title h1 {
-      color: var(--teal-dark);
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      line-height: 1;
-    }
+.top-section {
+  position: relative;
+  min-height: 180px;
+  padding: 20px 12px 25px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
 
-    .brand-title p {
-      color: var(--teal-mid);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-top: 2px;
-      text-transform: uppercase;
-    }
+.top-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .85;
+  pointer-events: none;
+}
 
-    .lang-btn {
-      background: var(--teal-dark);
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 15px;
-      font-size: 11px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-    }
+.brand {
+  position: relative;
+  z-index: 2;
+  padding-top: 12px;
+  text-shadow: 0 2px 12px rgba(0,0,0,.5);
+}
 
-    /* Header Main */
-    .header-main {
-      text-align: center;
-      margin-bottom: 15px;
-    }
+.brand-name {
+  color: var(--mint);
+  font-size: clamp(23px, 5vw, 36px);
+  font-weight: 900;
+  letter-spacing: 4px;
+}
 
-    .mosque-icon {
-      width: 45px;
-      height: 30px;
-      margin: 0 auto 2px;
-      fill: var(--teal-dark);
-    }
+.brand-title {
+  font-size: clamp(16px, 3.5vw, 23px);
+  font-weight: 700;
+  margin-top: 8px;
+}
 
-    .main-title {
-      color: var(--teal-dark);
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      margin-bottom: 2px;
-      text-transform: uppercase;
-    }
+.brand-tagline {
+  color: var(--soft);
+  font-size: 12px;
+  margin-top: 7px;
+  letter-spacing: .5px;
+}
 
-    .subtitle-line {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: var(--teal-mid);
-      font-size: 12px;
-      font-weight: 600;
-    }
+/* LANGUAGE */
 
-    .subtitle-line::before, .subtitle-line::after {
-      content: "";
-      height: 1px;
-      width: 30px;
-      background: var(--teal-mid);
-      opacity: 0.4;
-    }
+.languages {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 12px;
+  position: relative;
+  z-index: 3;
+}
 
-    /* Clock Banner */
-    .clock-banner {
-      background: linear-gradient(135deg, #094038 0%, #0b5147 100%);
-      border-radius: 12px;
-      padding: 12px 15px;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 6px 15px rgba(11, 81, 71, 0.3);
-      margin-bottom: 10px;
-    }
+.languages button {
+  border: 1px solid rgba(255,255,255,.35);
+  background: rgba(255,255,255,.08);
+  color: white;
+  padding: 7px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+}
 
-    .clock-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100%;
-    }
+.languages button.active {
+  background: var(--cyan);
+  color: #062b29;
+  border-color: var(--cyan);
+  font-weight: 800;
+}
 
-    .icon-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+/* MAIN CONTENT */
 
-    .icon-circle svg {
-      width: 20px;
-      height: 20px;
-    }
+.main {
+  width: min(94%, 850px);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
 
-    .clock-time {
-      font-size: 26px;
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: 0.5px;
-      font-variant-numeric: tabular-nums;
-    }
+.clock-box {
+  padding: 8px 5px 13px;
+}
 
-    .clock-date {
-      font-size: 11px;
-      margin-top: 3px;
-      opacity: 0.9;
-      font-weight: 500;
-    }
+.clock {
+  font-size: clamp(39px, 10vw, 76px);
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: white;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
 
-    /* Next Prayer Banner */
-    .next-prayer-banner {
-      background: var(--teal-dark);
-      border-radius: 10px;
-      padding: 10px 15px;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
+.date {
+  margin-top: 7px;
+  font-size: clamp(12px, 2.8vw, 16px);
+  color: var(--mint);
+}
 
-    .next-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+/* NEXT PRAYER */
 
-    .next-icon-bg {
-      width: 32px;
-      height: 32px;
-      background: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+.next-box {
+  max-width: 510px;
+  margin: 8px auto 20px;
+  padding: 15px 12px;
+  border: 1px solid rgba(0,183,195,.55);
+  border-radius: 18px;
+  background: linear-gradient(
+    120deg,
+    rgba(0,183,195,.16),
+    rgba(255,255,255,.07)
+  );
+  box-shadow: 0 8px 25px rgba(0,0,0,.13);
+}
 
-    .next-icon-bg svg {
-      fill: var(--teal-dark);
-      width: 16px;
-      height: 16px;
-    }
+.next-label {
+  color: var(--mint);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
 
-    .next-label {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      opacity: 0.8;
-      font-weight: 700;
-    }
+.next-name {
+  font-size: clamp(23px, 5vw, 32px);
+  font-weight: 800;
+  margin-top: 5px;
+}
 
-    .next-name {
-      font-size: 15px;
-      font-weight: 800;
-    }
+.countdown {
+  font-size: clamp(27px, 7vw, 42px);
+  font-weight: 800;
+  color: #71f5e4;
+  margin-top: 5px;
+  letter-spacing: 2px;
+  font-variant-numeric: tabular-nums;
+}
 
-    .countdown-time {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      font-variant-numeric: tabular-nums;
-    }
+/* PRAYER CARDS */
 
-    /* Daily Section Header */
-    .section-title-wrap {
-      text-align: center;
-      margin-bottom: 12px;
-      position: relative;
-    }
+.prayer-heading {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--mint);
+  margin-bottom: 12px;
+}
 
-    .section-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--teal-dark);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      display: inline-block;
-      background: #ecf6f2;
-      padding: 0 10px;
-      position: relative;
-      z-index: 2;
-    }
+.prayer-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
 
-    .section-title-wrap::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 0; right: 0;
-      height: 1px;
-      background: var(--teal-mid);
-      opacity: 0.3;
-      z-index: 1;
-    }
+.prayer-card {
+  min-width: 0;
+  padding: 13px 3px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.09);
+  border: 1px solid rgba(255,255,255,.13);
+  transition: .2s ease;
+}
 
-    /* Prayer Cards Grid */
-    .prayer-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 5px;
-      margin-bottom: 15px;
-    }
+.prayer-card.active {
+  background: rgba(0,183,195,.22);
+  border: 1px solid var(--cyan);
+  box-shadow: 0 0 17px rgba(0,183,195,.2);
+}
 
-    .prayer-card {
-      background: linear-gradient(180deg, #0b5147 0%, #083e37 100%);
-      color: white;
-      border-radius: 10px;
-      padding: 8px 2px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
+.prayer-icon {
+  font-size: clamp(17px, 4vw, 25px);
+  margin-bottom: 7px;
+}
 
-    .prayer-card.active {
-      background: linear-gradient(180deg, #0d6b5e 0%, #0b5147 100%);
-      border: 1.5px solid #20c997;
-    }
+.prayer-name {
+  font-size: clamp(10px, 2.5vw, 15px);
+  font-weight: 800;
+  white-space: nowrap;
+}
 
-    .card-icon-bg {
-      width: 28px;
-      height: 28px;
-      background: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 5px;
-    }
+.prayer-time {
+  font-size: clamp(10px, 2.4vw, 14px);
+  margin-top: 8px;
+  color: var(--mint);
+  white-space: nowrap;
+}
 
-    .card-icon-bg svg {
-      fill: var(--teal-dark);
-      width: 14px;
-      height: 14px;
-    }
+/* DEMO NOTICE */
 
-    .prayer-title {
-      font-size: 10px;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
+.notice {
+  width: min(92%, 650px);
+  margin: 18px auto 8px;
+  color: rgba(255,255,255,.65);
+  font-size: 11px;
+  line-height: 1.6;
+}
 
-    .prayer-time-val {
-      font-size: 9.5px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
+/* BOTTOM MOSQUE */
 
-    /* Notice Bar */
-    .notice-bar {
-      background: #dcf0e9;
-      border-radius: 10px;
-      padding: 8px 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--teal-dark);
-      font-size: 10px;
-      font-weight: 600;
-      margin-bottom: 15px;
-    }
+.bottom-art {
+  width: 100%;
+  height: 115px;
+  display: block;
+  margin-top: auto;
+  opacity: .8;
+  flex-shrink: 0;
+}
 
-    .notice-icon {
-      width: 18px;
-      height: 18px;
-      background: var(--teal-dark);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      flex-shrink: 0;
-      font-size: 10px;
-    }
+.footer {
+  padding: 5px 10px 13px;
+  color: rgba(255,255,255,.55);
+  font-size: 10px;
+  letter-spacing: .6px;
+}
 
-    .notice-divider {
-      width: 1px;
-      height: 14px;
-      background: var(--teal-mid);
-      opacity: 0.3;
-      flex-shrink: 0;
-    }
+/* RESPONSIVE */
 
-    /* Bottom Footer Section */
-    .footer-section {
-      background: var(--teal-dark);
-      margin: 0 -10px -15px -10px;
-      padding: 18px 10px 12px;
-      text-align: center;
-      color: white;
-      border-top-left-radius: 40% 15px;
-      border-top-right-radius: 40% 15px;
-    }
+@media (max-width: 420px) {
+  .top-section {
+    min-height: 155px;
+  }
 
-    .footer-mosque-icon {
-      width: 40px;
-      height: 25px;
-      fill: white;
-      margin-bottom: 4px;
-    }
+  .prayer-grid {
+    gap: 5px;
+  }
 
-    .footer-brand {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      margin-bottom: 2px;
-      text-transform: uppercase;
-    }
+  .prayer-card {
+    padding: 11px 1px;
+    border-radius: 11px;
+  }
 
-    .footer-sub {
-      font-size: 9.5px;
-      opacity: 0.9;
-      margin-bottom: 6px;
-    }
+  .next-box {
+    margin-bottom: 15px;
+  }
 
-    .footer-tagline {
-      font-size: 9px;
-      opacity: 0.7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
+  .bottom-art {
+    height: 90px;
+  }
+}
 
-    .footer-tagline::before, .footer-tagline::after {
-      content: "";
-      width: 20px;
-      height: 1px;
-      background: white;
-      opacity: 0.4;
-    }
-  </style>
+@media (max-height: 700px) {
+  .top-section {
+    min-height: 125px;
+    padding-top: 10px;
+  }
+
+  .clock-box {
+    padding: 3px 5px 8px;
+  }
+
+  .next-box {
+    margin-top: 3px;
+    margin-bottom: 12px;
+    padding: 10px;
+  }
+
+  .bottom-art {
+    height: 65px;
+  }
+}
+</style>
 </head>
+
 <body>
+<div class="page">
 
-  <div class="board-container">
-    <div class="content-wrap">
-      
-      <!-- Top Bar -->
-      <div class="top-bar">
-        <div class="brand-title">
-          <h1 id="brand-main">EULLIYAN'S</h1>
-          <p id="brand-sub">DIGITAL MOSQUE SOLUTIONS</p>
-        </div>
-        <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">
-          🌐 <span id="lang-text">English ▾</span>
-        </button>
+  <!-- TOP MOSQUE SILHOUETTE + BRAND -->
+  <header class="top-section">
+
+    <svg class="top-art" viewBox="0 0 1200 260"
+         preserveAspectRatio="xMidYMid slice"
+         xmlns="http://www.w3.org/2000/svg">
+
+      <defs>
+        <linearGradient id="mosqueTop" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#00b7c3" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#baf5e9" stop-opacity=".05"/>
+        </linearGradient>
+      </defs>
+
+      <path d="M0 210 H1200 V260 H0Z" fill="#00b7c3" opacity=".13"/>
+
+      <!-- LEFT MINARET -->
+      <path d="M120 210 V95 H145 V210Z" fill="url(#mosqueTop)"/>
+      <path d="M115 95 L132 70 L150 95Z" fill="#baf5e9" opacity=".7"/>
+      <path d="M125 70 V48 H140 V70Z" fill="url(#mosqueTop)"/>
+      <path d="M121 48 L132 30 L144 48Z" fill="#baf5e9" opacity=".7"/>
+      <path d="M112 112 H153 M112 145 H153" stroke="#baf5e9" stroke-width="3" opacity=".5"/>
+
+      <!-- RIGHT MINARET -->
+      <path d="M1030 210 V95 H1055 V210Z" fill="url(#mosqueTop)"/>
+      <path d="M1025 95 L1042 70 L1060 95Z" fill="#baf5e9" opacity=".7"/>
+      <path d="M1035 70 V48 H1050 V70Z" fill="url(#mosqueTop)"/>
+      <path d="M1031 48 L1042 30 L1054 48Z" fill="#baf5e9" opacity=".7"/>
+      <path d="M1022 112 H1063 M1022 145 H1063" stroke="#baf5e9" stroke-width="3" opacity=".5"/>
+
+      <!-- SIDE DOMES -->
+      <path d="M210 210 V165 Q270 80 330 165 V210Z" fill="url(#mosqueTop)"/>
+      <path d="M870 210 V165 Q930 80 990 165 V210Z" fill="url(#mosqueTop)"/>
+
+      <!-- MAIN MOSQUE -->
+      <path d="M330 210 V165
+               Q380 145 420 165
+               Q480 135 530 165
+               Q600 45 670 165
+               Q720 135 770 165
+               Q820 145 870 165
+               V210Z" fill="url(#mosqueTop)"/>
+
+      <!-- DOME DETAIL -->
+      <path d="M530 165 Q600 45 670 165"
+            fill="none" stroke="#baf5e9" stroke-width="3" opacity=".7"/>
+
+      <!-- CRESCENT -->
+      <path d="M600 40 C585 24 592 7 609 2
+               C593 15 599 31 615 34
+               C610 39 605 41 600 40Z"
+            fill="#baf5e9"/>
+
+      <!-- ARCHES -->
+      <path d="M390 210 V190 Q420 150 450 190 V210
+               M500 210 V185 Q530 140 560 185 V210
+               M640 210 V185 Q670 140 700 185 V210
+               M750 210 V190 Q780 150 810 190 V210"
+            fill="none" stroke="#baf5e9" stroke-width="4" opacity=".5"/>
+
+      <path d="M0 211 H1200" stroke="#00b7c3" stroke-width="3" opacity=".7"/>
+    </svg>
+
+    <div class="brand">
+      <div class="brand-name">EULLIYAN'S</div>
+      <div class="brand-title">Digital Mosque Prayer Board</div>
+      <div class="brand-tagline">
+        Designed for a peaceful prayer experience
       </div>
-
-      <!-- Main Header -->
-      <div class="header-main">
-        <svg class="mosque-icon" viewBox="0 0 100 60">
-          <path d="M50 5 C40 18 35 25 35 35 L65 35 C65 25 60 18 50 5 Z M50 0 L52 4 L48 4 Z"/>
-          <rect x="20" y="20" width="8" height="25"/>
-          <path d="M24 10 L28 20 L20 20 Z"/>
-          <rect x="72" y="20" width="8" height="25"/>
-          <path d="M76 10 L80 20 L72 20 Z"/>
-          <rect x="30" y="32" width="40" height="18"/>
-          <path d="M43 50 A7 7 0 0 1 57 50 Z" fill="#f4fbf8"/>
-        </svg>
-        <div class="main-title" id="title-text">MASJID PRAYER BOARD</div>
-        <div class="subtitle-line">
-          <span id="loc-text">Your Mosque • Your City</span>
-        </div>
-      </div>
-
-      <!-- Live Clock Banner -->
-      <div class="clock-banner">
-        <div class="clock-left">
-          <div class="icon-circle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-          </div>
-          <div>
-            <div class="clock-time" id="live-clock">22:30:15</div>
-            <div class="clock-date" id="live-date">Friday, October 30, 2026</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Next Prayer Banner -->
-      <div class="next-prayer-banner">
-        <div class="next-left">
-          <div class="next-icon-bg">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 2C8 6 7 10 7 14h10c0-4-1-8-5-12zM5 16h14v2H5z"/>
-            </svg>
-          </div>
-          <div>
-            <div class="next-label" id="lbl-next-prayer">NEXT PRAYER:</div>
-            <div class="next-name" id="next-prayer-name">Fajr</div>
-          </div>
-        </div>
-        <div class="countdown-time" id="countdown">06:29:44</div>
-      </div>
-
-      <!-- Daily Title Section -->
-      <div class="section-title-wrap">
-        <span class="section-title" id="lbl-daily-times">DAILY PRAYER TIMES</span>
-      </div>
-
-      <!-- 5 Prayer Cards -->
-      <div class="prayer-grid">
-        <!-- Fajr -->
-        <div class="prayer-card" id="card-fajr">
-          <div class="card-icon-bg">
-            <svg viewBox="0 0 24 24"><path d="M12 4a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm0 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm-9-4h2a1 1 0 1 0 0-2H3a1 1 0 1 0 0 2zm16 0h2a1 1 0 1 0 0-2h-2a1 1 0 1 0 0 2zM5 8a1 1 0 0 0 0 2h14a1 1 0 1 0 0-2H5z"/></svg>
-          </div>
-          <div class="prayer-title" id="name-fajr">Fajr</div>
-          <div class="prayer-time-val" id="time-fajr">05:00 AM</div>
-        </div>
-
-        <!-- Dhuhr -->
-        <div class="prayer-card" id="card-dhuhr">
-          <div class="card-icon-bg">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </div>
-          <div class="prayer-title" id="name-dhuhr">Dhuhr</div>
-          <div class="prayer-time-val" id="time-dhuhr">12:15 PM</div>
-        </div>
-
-        <!-- Asr -->
-        <div class="prayer-card" id="card-asr">
-          <div class="card-icon-bg">
-            <svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0-3a8 8 0 0 0-8 8c0 1.5.4 2.9 1.1 4.1L3.5 19b-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l2.9-1.6c1.2.7 2.6 1.1 4.2 1.1a8 8 0 0 0 8-8 8 8 0 0 0-8-8z"/></svg>
-          </div>
-          <div class="prayer-title" id="name-asr">Asr</div>
-          <div class="prayer-time-val" id="time-asr">03:30 PM</div>
-        </div>
-
-        <!-- Maghrib -->
-        <div class="prayer-card" id="card-maghrib">
-          <div class="card-icon-bg">
-            <svg viewBox="0 0 24 24"><path d="M12 4a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm0 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm-9-4h2a1 1 0 1 0 0-2H3a1 1 0 1 0 0 2zm16 0h2a1 1 0 1 0 0-2h-2a1 1 0 1 0 0 2zM5 18h14a1 1 0 1 0 0-2H5a1 1 0 1 0 0 2z"/></svg>
-          </div>
-          <div class="prayer-title" id="name-maghrib">Maghrib</div>
-          <div class="prayer-time-val" id="time-maghrib">05:45 PM</div>
-        </div>
-
-        <!-- Isha -->
-        <div class="prayer-card" id="card-isha">
-          <div class="card-icon-bg">
-            <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-5.4-5.4c0-1.81 .89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z"/></svg>
-          </div>
-          <div class="prayer-title" id="name-isha">Isha</div>
-          <div class="prayer-time-val" id="time-isha">07:15 PM</div>
-        </div>
-      </div>
-
-      <!-- Notice Bar -->
-      <div class="notice-bar">
-        <div class="notice-icon">i</div>
-        <div class="notice-divider"></div>
-        <div id="notice-text">Prayer times shown here are demonstration values. Please verify with your local mosque timetable.</div>
-      </div>
-
-      <!-- Footer -->
-      <div class="footer-section">
-        <svg class="footer-mosque-icon" viewBox="0 0 100 60">
-          <path d="M50 5 C40 18 35 25 35 35 L65 35 C65 25 60 18 50 5 Z M50 0 L52 4 L48 4 Z"/>
-          <rect x="20" y="20" width="8" height="25"/>
-          <rect x="72" y="20" width="8" height="25"/>
-          <rect x="30" y="32" width="40" height="18"/>
-          <path d="M43 50 A7 7 0 0 1 57 50 Z" fill="#003831"/>
-        </svg>
-        <div class="footer-brand" id="foot-brand">EULLIYAN'S</div>
-        <div class="footer-sub" id="foot-sub">Digital Mosque Prayer Board</div>
-        <div class="footer-tagline" id="foot-tagline">Designed for a peaceful prayer experience</div>
-      </div>
-
     </div>
+  </header>
+
+  <!-- LANGUAGE SWITCH -->
+  <nav class="languages" aria-label="Language">
+    <button class="active" data-lang="en">English</button>
+    <button data-lang="bn">বাংলা</button>
+    <button data-lang="ar">العربية</button>
+  </nav>
+
+  <!-- MAIN BOARD -->
+  <main class="main">
+
+    <section class="clock-box">
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="date" id="date">Loading date...</div>
+    </section>
+
+    <section class="next-box">
+      <div class="next-label" id="nextLabel">NEXT PRAYER</div>
+      <div class="next-name" id="nextName">Fajr</div>
+      <div class="countdown" id="countdown">00:00:00</div>
+    </section>
+
+    <div class="prayer-heading" id="prayerHeading">
+      DAILY PRAYER TIMES
+    </div>
+
+    <section class="prayer-grid" id="prayerGrid">
+
+      <div class="prayer-card" data-prayer="fajr">
+        <div class="prayer-icon">🌙</div>
+        <div class="prayer-name">Fajr</div>
+        <div class="prayer-time">05:00 AM</div>
+      </div>
+
+      <div class="prayer-card" data-prayer="dhuhr">
+        <div class="prayer-icon">☀️</div>
+        <div class="prayer-name">Dhuhr</div>
+        <div class="prayer-time">12:15 PM</div>
+      </div>
+
+      <div class="prayer-card" data-prayer="asr">
+        <div class="prayer-icon">🌤️</div>
+        <div class="prayer-name">Asr</div>
+        <div class="prayer-time">03:30 PM</div>
+      </div>
+
+      <div class="prayer-card" data-prayer="maghrib">
+        <div class="prayer-icon">🌇</div>
+        <div class="prayer-name">Maghrib</div>
+        <div class="prayer-time">05:45 PM</div>
+      </div>
+
+      <div class="prayer-card" data-prayer="isha">
+        <div class="prayer-icon">🌃</div>
+        <div class="prayer-name">Isha</div>
+        <div class="prayer-time">07:15 PM</div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <div class="notice" id="notice">
+    Demo prayer times — configure your local mosque timings before public use.
   </div>
 
-  <script>
-    const prayerTimes = [
-      { id: 'fajr', name: { en: 'Fajr', bn: 'ফজর', ar: 'الفجر' }, time: '05:00', display: '05:00 AM' },
-      { id: 'dhuhr', name: { en: 'Dhuhr', bn: 'যোহর', ar: 'الظهر' }, time: '12:15', display: '12:15 PM' },
-      { id: 'asr', name: { en: 'Asr', bn: 'আসর', ar: 'العصر' }, time: '15:30', display: '03:30 PM' },
-      { id: 'maghrib', name: { en: 'Maghrib', bn: 'মাগরিব', ar: 'المغرب' }, time: '17:45', display: '05:45 PM' },
-      { id: 'isha', name: { en: 'Isha', bn: 'এশা', ar: 'العشاء' }, time: '19:15', display: '07:15 PM' }
-    ];
+  <!-- BOTTOM MOSQUE SILHOUETTE -->
+  <svg class="bottom-art" viewBox="0 0 1200 180"
+       preserveAspectRatio="xMidYMax meet"
+       xmlns="http://www.w3.org/2000/svg">
 
-    const translations = {
-      en: {
-        brandSub: "DIGITAL MOSQUE SOLUTIONS",
-        title: "MASJID PRAYER BOARD",
-        location: "Your Mosque • Your City",
-        nextLabel: "NEXT PRAYER:",
-        dailyTimes: "DAILY PRAYER TIMES",
-        notice: "Prayer times shown here are demonstration values. Please verify with your local mosque timetable.",
-        footSub: "Digital Mosque Prayer Board",
-        footTagline: "Designed for a peaceful prayer experience",
-        btn: "English ▾"
-      },
-      bn: {
-        brandSub: "ডিজিটাল মসজিদ সমাধান",
-        title: "মসজিদ নামাজের সময়সূচী",
-        location: "আপনার মসজিদ • আপনার শহর",
-        nextLabel: "পরবর্তী নামাজ:",
-        dailyTimes: "দৈনন্দিন নামাজের সময়সূচী",
-        notice: "এখানে প্রদর্শিত সময়সূচী ডেমো হিসেবে দেওয়া হয়েছে। অনুগ্রহ করে আপনার স্থানীয় মসজিদের সময়সূচী যাচাই করুন।",
-        footSub: "ডিজিটাল মসজিদ প্রেয়ার বোর্ড",
-        footTagline: "শান্তিপূর্ণ সালাত অভিজ্ঞতার জন্য তৈরি",
-        btn: "বাংলা ▾"
-      },
-      ar: {
-        brandSub: "حلول المساجد الرقمية",
-        title: "لوحة أوقات الصلاة",
-        location: "مسجدكم • مدينتكم",
-        nextLabel: "الصلاة القادمة:",
-        dailyTimes: "أوقات الصلاة اليومية",
-        notice: "أوقات الصلاة المعروضة هنا هي قيم توضيحية. يرجى التحقق من جدول المسجد المحلي.",
-        footSub: "لوحة صلاة المسجد الرقمية",
-        footTagline: "صُممت لتجربة صلاة هادئة",
-        btn: "العربية ▾"
-      }
-    };
+    <defs>
+      <linearGradient id="mosqueBottom" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#00b7c3" stop-opacity=".08"/>
+        <stop offset="1" stop-color="#00b7c3" stop-opacity=".45"/>
+      </linearGradient>
+    </defs>
 
-    let currentLang = 'en';
+    <path d="M0 180 V145 H1200 V180Z" fill="url(#mosqueBottom)"/>
 
-    function toggleLanguage() {
-      if (currentLang === 'en') currentLang = 'bn';
-      else if (currentLang === 'bn') currentLang = 'ar';
-      else currentLang = 'en';
+    <path d="M100 145 V70 H125 V145Z
+             M95 70 L112 45 L130 70Z
+             M107 45 V25 H117 V45Z
+             M103 25 L112 10 L121 25Z"
+          fill="#baf5e9" opacity=".45"/>
 
-      const t = translations[currentLang];
-      document.getElementById('brand-sub').innerText = t.brandSub;
-      document.getElementById('title-text').innerText = t.title;
-      document.getElementById('loc-text').innerText = t.location;
-      document.getElementById('lbl-next-prayer').innerText = t.nextLabel;
-      document.getElementById('lbl-daily-times').innerText = t.dailyTimes;
-      document.getElementById('notice-text').innerText = t.notice;
-      document.getElementById('foot-sub').innerText = t.footSub;
-      document.getElementById('foot-tagline').innerText = t.footTagline;
-      document.getElementById('lang-text').innerText = t.btn;
+    <path d="M1075 145 V70 H1100 V145Z
+             M1070 70 L1087 45 L1105 70Z
+             M1082 45 V25 H1092 V45Z
+             M1078 25 L1087 10 L1096 25Z"
+          fill="#baf5e9" opacity=".45"/>
 
-      prayerTimes.forEach(p => {
-        document.getElementById(`name-${p.id}`).innerText = p.name[currentLang];
-      });
+    <path d="M200 145 V115 Q260 35 320 115 V145Z
+             M880 145 V115 Q940 35 1000 115 V145Z"
+          fill="url(#mosqueBottom)"/>
 
-      updateClock();
+    <path d="M320 145 V105
+             Q400 70 470 105
+             Q600 -15 730 105
+             Q800 70 880 105
+             V145Z"
+          fill="url(#mosqueBottom)"/>
+
+    <path d="M600 5 C585 -8 590 -23 605 -30
+             C594 -15 600 -2 614 0Z"
+          fill="#baf5e9" opacity=".7"/>
+
+    <path d="M0 145 H1200" stroke="#00b7c3" stroke-width="3" opacity=".8"/>
+  </svg>
+
+  <footer class="footer">
+    EULLIYAN'S • DIGITAL MOSQUE PRAYER BOARD
+  </footer>
+
+</div>
+
+<script>
+/* PRAYER TIMES
+   These are demo values. Replace with local mosque timings.
+*/
+
+const prayerTimes = [
+  { key: "fajr", time: "05:00", icon: "🌙" },
+  { key: "dhuhr", time: "12:15", icon: "☀️" },
+  { key: "asr", time: "15:30", icon: "🌤️" },
+  { key: "maghrib", time: "17:45", icon: "🌇" },
+  { key: "isha", time: "19:15", icon: "🌃" }
+];
+
+const translations = {
+  en: {
+    next: "NEXT PRAYER",
+    heading: "DAILY PRAYER TIMES",
+    prayers: {
+      fajr: "Fajr",
+      dhuhr: "Dhuhr",
+      asr: "Asr",
+      maghrib: "Maghrib",
+      isha: "Isha"
+    },
+    notice: "Demo prayer times — configure your local mosque timings before public use."
+  },
+
+  bn: {
+    next: "পরবর্তী নামাজ",
+    heading: "দৈনিক নামাজের সময়",
+    prayers: {
+      fajr: "ফজর",
+      dhuhr: "যোহর",
+      asr: "আসর",
+      maghrib: "মাগরিব",
+      isha: "এশা"
+    },
+    notice: "ডেমো নামাজের সময় — ব্যবহারের আগে স্থানীয় মসজিদের সময় সেট করুন।"
+  },
+
+  ar: {
+    next: "الصلاة القادمة",
+    heading: "مواقيت الصلاة اليومية",
+    prayers: {
+      fajr: "الفجر",
+      dhuhr: "الظهر",
+      asr: "العصر",
+      maghrib: "المغرب",
+      isha: "العشاء"
+    },
+    notice: "أوقات تجريبية — يرجى ضبط مواقيت المسجد المحلي قبل الاستخدام."
+  }
+};
+
+let currentLanguage = "en";
+
+const clockElement = document.getElementById("clock");
+const dateElement = document.getElementById("date");
+const nextLabelElement = document.getElementById("nextLabel");
+const nextNameElement = document.getElementById("nextName");
+const countdownElement = document.getElementById("countdown");
+const headingElement = document.getElementById("prayerHeading");
+const noticeElement = document.getElementById("notice");
+
+function getLocale() {
+  if (currentLanguage === "bn") return "bn-BD";
+  if (currentLanguage === "ar") return "ar-SA";
+  return "en-US";
+}
+
+function getPrayerDate(time, baseDate) {
+  const parts = time.split(":");
+  const date = new Date(baseDate);
+
+  date.setHours(
+    Number(parts[0]),
+    Number(parts[1]),
+    0,
+    0
+  );
+
+  return date;
+}
+
+function updateLanguage() {
+  const t = translations[currentLanguage];
+
+  document.documentElement.lang = currentLanguage;
+  document.documentElement.dir =
+    currentLanguage === "ar" ? "rtl" : "ltr";
+
+  nextLabelElement.textContent = t.next;
+  headingElement.textContent = t.heading;
+  noticeElement.textContent = t.notice;
+
+  document.querySelectorAll(".prayer-card").forEach(card => {
+    const key = card.dataset.prayer;
+    const prayer = prayerTimes.find(item => item.key === key);
+
+    if (!prayer) return;
+
+    card.querySelector(".prayer-name").textContent =
+      t.prayers[key];
+
+    card.querySelector(".prayer-time").textContent =
+      formatPrayerTime(prayer.time);
+  });
+
+  document.querySelectorAll(".languages button").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.lang === currentLanguage
+    );
+  });
+}
+
+function formatPrayerTime(time) {
+  const parts = time.split(":");
+  const hour = Number(parts[0]);
+  const minute = Number(parts[1]);
+
+  const date = new Date();
+  date.setHours(hour, minute, 0, 0);
+
+  return date.toLocaleTimeString(getLocale(), {
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
+
+function updateClock() {
+  const now = new Date();
+
+  clockElement.textContent = now.toLocaleTimeString(
+    getLocale(),
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
     }
+  );
 
-    function updateClock() {
-      const now = new Date();
-      
-      const hrs = String(now.getHours()).padStart(2, '0');
-      const mins = String(now.getMinutes()).padStart(2, '0');
-      const secs = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('live-clock').innerText = `${hrs}:${mins}:${secs}`;
-
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('live-date').innerText = now.toLocaleDateString(currentLang === 'bn' ? 'bn-BD' : (currentLang === 'ar' ? 'ar-SA' : 'en-US'), options);
-
-      let nextIndex = 0;
-      let nextTime = null;
-
-      for (let i = 0; i < prayerTimes.length; i++) {
-        const [pHrs, pMins] = prayerTimes[i].time.split(':').map(Number);
-        const pDate = new Date();
-        pDate.setHours(pHrs, pMins, 0, 0);
-
-        if (pDate > now) {
-          nextIndex = i;
-          nextTime = pDate;
-          break;
-        }
-      }
-
-      if (!nextTime) {
-        nextIndex = 0;
-        const [pHrs, pMins] = prayerTimes[0].time.split(':').map(Number);
-        nextTime = new Date();
-        nextTime.setDate(nextTime.getDate() + 1);
-        nextTime.setHours(pHrs, pMins, 0, 0);
-      }
-
-      prayerTimes.forEach((p, idx) => {
-        const card = document.getElementById(`card-${p.id}`);
-        if (idx === nextIndex) {
-          card.classList.add('active');
-        } else {
-          card.classList.remove('active');
-        }
-      });
-
-      document.getElementById('next-prayer-name').innerText = prayerTimes[nextIndex].name[currentLang];
-
-      const diffSecs = Math.floor((nextTime - now) / 1000);
-      const cHrs = String(Math.floor(diffSecs / 3600)).padStart(2, '0');
-      const cMins = String(Math.floor((diffSecs % 3600) / 60)).padStart(2, '0');
-      const cSecs = String(diffSecs % 60).padStart(2, '0');
-      
-      document.getElementById('countdown').innerText = `${cHrs}:${cMins}:${cSecs}`;
+  dateElement.textContent = now.toLocaleDateString(
+    getLocale(),
+    {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
     }
+  );
 
-    setInterval(updateClock, 1000);
+  updateNextPrayer(now);
+}
+
+function updateNextPrayer(now) {
+  let nextPrayer = null;
+  let nextDate = null;
+
+  for (const prayer of prayerTimes) {
+    const prayerDate = getPrayerDate(prayer.time, now);
+
+    if (prayerDate > now) {
+      nextPrayer = prayer;
+      nextDate = prayerDate;
+      break;
+    }
+  }
+
+  // If all today's prayers have passed, use tomorrow's Fajr.
+  if (!nextPrayer) {
+    nextPrayer = prayerTimes[0];
+    nextDate = getPrayerDate(
+      nextPrayer.time,
+      new Date(now.getTime() + 24 * 60 * 60 * 1000)
+    );
+  }
+
+  const difference = Math.max(
+    0,
+    nextDate.getTime() - now.getTime()
+  );
+
+  const totalSeconds = Math.floor(difference / 1000);
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  countdownElement.textContent = [
+    String(hours).padStart(2, "0"),
+    String(minutes).padStart(2, "0"),
+    String(seconds).padStart(2, "0")
+  ].join(":");
+
+  nextNameElement.textContent =
+    translations[currentLanguage].prayers[nextPrayer.key];
+
+  document.querySelectorAll(".prayer-card").forEach(card => {
+    card.classList.toggle(
+      "active",
+      card.dataset.prayer === nextPrayer.key
+    );
+  });
+}
+
+// Language button actions
+document.querySelectorAll(".languages button").forEach(button => {
+  button.addEventListener("click", () => {
+    currentLanguage = button.dataset.lang;
+    updateLanguage();
     updateClock();
-  </script>
+  });
+});
+
+// Start the board
+updateLanguage();
+updateClock();
+
+setInterval(updateClock, 1000);
+</script>
+
 </body>
 </html>
-
