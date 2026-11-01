@@ -1048,7 +1048,13 @@ languageButton.addEventListener("click", () => {
 });
 
 updateJamaatTimes();
+// LOCATION PANEL TOGGLE
+const locationButton = document.getElementById("locationButton");
+const locationPanel = document.getElementById("locationPanel");
 
+locationButton.addEventListener("click", () => {
+  locationPanel.hidden = !locationPanel.hidden;
+});
 setInterval(updateClock, 1000);
 </script>
 
