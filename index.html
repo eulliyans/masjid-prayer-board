@@ -74,7 +74,7 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 1;
+  opacity: .75;
   pointer-events: none;
 }
 
@@ -519,15 +519,65 @@ body {
   <!-- TOP MOSQUE SILHOUETTE + BRAND -->
   <header class="top-section">
 
-    <!-- আপনি যে ছোট SVG কোডটি খুঁজছিলেন সেটি এখানে বসানো হলো -->
-    <div class="top-art">
-      <svg width="100%" height="100%" viewBox="0 0 500 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <g fill="#075b52" fill-opacity="0.15">
-          <!-- Simple mosque dome and minarets silhouette path -->
-          <path d="M220 120 L220 80 L210 80 L210 120 L190 120 L190 50 L195 50 L195 40 L198 40 L198 30 L202 30 L202 40 L205 40 L205 50 L230 50 L230 120 Z M270 120 L270 50 L295 50 L295 40 L298 40 L298 30 L302 30 L302 40 L305 40 L305 50 L310 50 L310 120 Z M250 120 C230 120 220 100 220 70 C220 70 235 75 250 75 C265 75 280 70 280 70 C280 100 270 120 250 120 Z"/>
-        </g>
-      </svg>
-    </div>
+    <svg class="top-art" viewBox="0 0 1200 260"
+         preserveAspectRatio="xMidYMid slice"
+         xmlns="http://www.w3.org/2000/svg">
+
+      <defs>
+        <linearGradient id="mosqueTop" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#00b7c3" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#baf5e9" stop-opacity=".05"/>
+        </linearGradient>
+      </defs>
+
+      <path d="M0 210 H1200 V260 H0Z" fill="#00b7c3" opacity=".13"/>
+
+      <!-- LEFT MINARET -->
+      <path d="M120 210 V95 H145 V210Z" fill="url(#mosqueTop)"/>
+      <path d="M115 95 L132 70 L150 95Z" fill="#baf5e9" opacity=".7"/>
+      <path d="M125 70 V48 H140 V70Z" fill="url(#mosqueTop)"/>
+      <path d="M121 48 L132 30 L144 48Z" fill="#baf5e9" opacity=".7"/>
+      <path d="M112 112 H153 M112 145 H153" stroke="#baf5e9" stroke-width="3" opacity=".5"/>
+
+      <!-- RIGHT MINARET -->
+      <path d="M1030 210 V95 H1055 V210Z" fill="url(#mosqueTop)"/>
+      <path d="M1025 95 L1042 70 L1060 95Z" fill="#baf5e9" opacity=".7"/>
+      <path d="M1035 70 V48 H1050 V70Z" fill="url(#mosqueTop)"/>
+      <path d="M1031 48 L1042 30 L1054 48Z" fill="#baf5e9" opacity=".7"/>
+      <path d="M1022 112 H1063 M1022 145 H1063" stroke="#baf5e9" stroke-width="3" opacity=".5"/>
+
+      <!-- SIDE DOMES -->
+      <path d="M210 210 V165 Q270 80 330 165 V210Z" fill="url(#mosqueTop)"/>
+      <path d="M870 210 V165 Q930 80 990 165 V210Z" fill="url(#mosqueTop)"/>
+
+      <!-- MAIN MOSQUE -->
+      <path d="M330 210 V165
+               Q380 145 420 165
+               Q480 135 530 165
+               Q600 45 670 165
+               Q720 135 770 165
+               Q820 145 870 165
+               V210Z" fill="url(#mosqueTop)"/>
+
+      <!-- DOME DETAIL -->
+      <path d="M530 165 Q600 45 670 165"
+            fill="none" stroke="#baf5e9" stroke-width="3" opacity=".7"/>
+
+      <!-- CRESCENT -->
+      <path d="M600 40 C585 24 592 7 609 2
+               C593 15 599 31 615 34
+               C610 39 605 41 600 40Z"
+            fill="#baf5e9"/>
+
+      <!-- ARCHES -->
+      <path d="M390 210 V190 Q420 150 450 190 V210
+               M500 210 V185 Q530 140 560 185 V210
+               M640 210 V185 Q670 140 700 185 V210
+               M750 210 V190 Q780 150 810 190 V210"
+            fill="none" stroke="#baf5e9" stroke-width="4" opacity=".5"/>
+
+      <path d="M0 211 H1200" stroke="#00b7c3" stroke-width="3" opacity=".7"/>
+    </svg>
 
     <div class="brand">
       <div class="brand-name">EULLIYAN'S</div>
@@ -540,10 +590,10 @@ body {
 
   <!-- LANGUAGE SWITCH -->
   <nav class="languages" aria-label="Language">
-    <button class="active" id="languageButton">
-       🌐 English 
-    </button>
-  </nav>
+  <button class="active" id="languageButton">
+     🌐 English 
+  </button>
+</nav>
 
   <!-- MAIN BOARD -->
   <main class="main">
@@ -596,53 +646,51 @@ body {
       </div>
 
     </section>
-
     <!-- AZAN & JAMAAT DIVIDER -->
-    <div class="prayer-jamaat-divider">
-      <span>DAILY CONGREGATION PRAYER TIMES</span>
+<div class="prayer-jamaat-divider">
+  <span>DAILY CONGREGATION PRAYER TIMES</span>
+</div>
+    <!-- JAMAAT TIME SCHEDULE -->
+<section class="schedule-section">
+
+  <div class="schedule-title" id="scheduleTitle">
+    JAMAAT TIMES
+  </div>
+
+  <div class="jamaat-grid">
+
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="fajr">Fajr</div>
+      <div class="jamaat-time" id="jamaat-fajr">--:--</div>
     </div>
 
-    <!-- JAMAAT TIME SCHEDULE -->
-    <section class="schedule-section">
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="dhuhr">Dhuhr</div>
+      <div class="jamaat-time" id="jamaat-dhuhr">--:--</div>
+    </div>
 
-      <div class="schedule-title" id="scheduleTitle">
-        JAMAAT TIMES
-      </div>
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="asr">Asr</div>
+      <div class="jamaat-time" id="jamaat-asr">--:--</div>
+    </div>
 
-      <div class="jamaat-grid">
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="maghrib">Maghrib</div>
+      <div class="jamaat-time" id="jamaat-maghrib">--:--</div>
+    </div>
 
-        <div class="jamaat-card">
-          <div class="schedule-prayer" data-prayer-name="fajr">Fajr</div>
-          <div class="jamaat-time" id="jamaat-fajr">--:--</div>
-        </div>
+    <div class="jamaat-card">
+      <div class="schedule-prayer" data-prayer-name="isha">Isha</div>
+      <div class="jamaat-time" id="jamaat-isha">--:--</div>
+    </div>
 
-        <div class="jamaat-card">
-          <div class="schedule-prayer" data-prayer-name="dhuhr">Dhuhr</div>
-          <div class="jamaat-time" id="jamaat-dhuhr">--:--</div>
-        </div>
+  </div>
 
-        <div class="jamaat-card">
-          <div class="schedule-prayer" data-prayer-name="asr">Asr</div>
-          <div class="jamaat-time" id="jamaat-asr">--:--</div>
-        </div>
+  <div class="schedule-note" id="scheduleNote">
+    Jamaat times are set by the local mosque.
+  </div>
 
-        <div class="jamaat-card">
-          <div class="schedule-prayer" data-prayer-name="maghrib">Maghrib</div>
-          <div class="jamaat-time" id="jamaat-maghrib">--:--</div>
-        </div>
-
-        <div class="jamaat-card">
-          <div class="schedule-prayer" data-prayer-name="isha">Isha</div>
-          <div class="jamaat-time" id="jamaat-isha">--:--</div>
-        </div>
-
-      </div>
-
-      <div class="schedule-note" id="scheduleNote">
-        Jamaat times are set by the local mosque.
-      </div>
-
-    </section>
+</section>
   </main>
 
   <div class="notice" id="notice">
@@ -698,7 +746,6 @@ body {
   </footer>
 
 </div>
-
 
 <script>
 /* PRAYER TIMES
