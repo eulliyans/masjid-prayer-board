@@ -530,7 +530,75 @@ padding: 24px 4px;
     height: 65px;
   }
 }
+/* JAMAAT SECTION ENHANCEMENT */
 
+.jamaat-section-title {
+  padding: 15px 10px;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jamaat-heading {
+  font-size: clamp(15px, 3.8vw, 19px);
+  font-weight: 850;
+}
+
+.schedule-prayer {
+  font-size: clamp(14px, 3.5vw, 17px) !important;
+  font-weight: 800;
+}
+
+.jamaat-time {
+  font-size: clamp(15px, 3.8vw, 18px) !important;
+  font-weight: 850;
+}
+
+.jamaat-note {
+  font-size: clamp(13px, 3.4vw, 16px);
+  line-height: 1.6;
+  font-weight: 600;
+}
+  /* JAMAAT DESIGN UPDATE */
+
+.prayer-jamaat-divider {
+  padding: 18px 10px;
+  min-height: 65px;
+  box-sizing: border-box;
+}
+
+.prayer-jamaat-divider span {
+  font-size: clamp(13px, 3.5vw, 17px);
+  font-weight: 850;
+}
+
+.schedule-title {
+  font-size: clamp(17px, 4vw, 21px);
+  font-weight: 900;
+}
+
+.jamaat-icon {
+  font-size: clamp(20px, 5vw, 27px);
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+.schedule-prayer {
+  font-size: clamp(13px, 3.3vw, 16px) !important;
+  font-weight: 800;
+}
+
+.jamaat-time {
+  font-size: clamp(14px, 3.5vw, 18px) !important;
+  font-weight: 850;
+}
+
+.schedule-note {
+  font-size: clamp(14px, 3.5vw, 17px);
+  font-weight: 600;
+  line-height: 1.6;
+}
 </style>
 </head>
 
@@ -667,40 +735,47 @@ padding: 24px 4px;
       </div>
 
     </section>
-    <!-- AZAN & JAMAAT DIVIDER -->
+
+<!-- AZAN & JAMAAT DIVIDER -->
 <div class="prayer-jamaat-divider">
   <span>DAILY CONGREGATION PRAYER TIMES</span>
 </div>
-    <!-- JAMAAT TIME SCHEDULE -->
+
+<!-- JAMAAT TIME SCHEDULE -->
 <section class="schedule-section">
 
   <div class="schedule-title" id="scheduleTitle">
-    JAMAAT TIMES
+    🕌 JAMAAT TIMES
   </div>
 
   <div class="jamaat-grid">
 
     <div class="jamaat-card">
+      <div class="jamaat-icon">🌅</div>
       <div class="schedule-prayer" data-prayer-name="fajr">Fajr</div>
       <div class="jamaat-time" id="jamaat-fajr">--:--</div>
     </div>
 
     <div class="jamaat-card">
+      <div class="jamaat-icon">☀️</div>
       <div class="schedule-prayer" data-prayer-name="dhuhr">Dhuhr</div>
       <div class="jamaat-time" id="jamaat-dhuhr">--:--</div>
     </div>
 
     <div class="jamaat-card">
+      <div class="jamaat-icon">🌤️</div>
       <div class="schedule-prayer" data-prayer-name="asr">Asr</div>
       <div class="jamaat-time" id="jamaat-asr">--:--</div>
     </div>
 
     <div class="jamaat-card">
+      <div class="jamaat-icon">🌇</div>
       <div class="schedule-prayer" data-prayer-name="maghrib">Maghrib</div>
       <div class="jamaat-time" id="jamaat-maghrib">--:--</div>
     </div>
 
     <div class="jamaat-card">
+      <div class="jamaat-icon">🌙</div>
       <div class="schedule-prayer" data-prayer-name="isha">Isha</div>
       <div class="jamaat-time" id="jamaat-isha">--:--</div>
     </div>
@@ -712,7 +787,7 @@ padding: 24px 4px;
   </div>
 
 </section>
-  </main>
+</main>
 
   <div class="notice" id="notice">
     Demo prayer times — configure your local mosque timings before public use.
