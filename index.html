@@ -1075,6 +1075,33 @@ const locationPanel = document.getElementById("locationPanel");
 locationButton.addEventListener("click", () => {
   locationPanel.hidden = !locationPanel.hidden;
 });
+ // COUNTRY AND CITY SELECTION
+
+const countrySelect = document.getElementById("countrySelect");
+const citySelect = document.getElementById("citySelect");
+
+const cityLists = {
+  SA: ["Jeddah", "Makkah", "Madinah", "Riyadh", "Dammam", "Taif", "Abha"],
+  BD: ["Dhaka", "Chittagong", "Sylhet", "Khulna", "Rajshahi"],
+  AE: ["Dubai", "Abu Dhabi", "Sharjah", "Ajman"],
+  IN: ["Delhi", "Mumbai", "Kolkata", "Hyderabad"],
+  PK: ["Karachi", "Lahore", "Islamabad", "Peshawar"]
+};
+
+countrySelect.addEventListener("change", () => {
+  const cities = cityLists[countrySelect.value] || [];
+
+  citySelect.innerHTML = '<option value="">Select City</option>';
+
+  cities.forEach(city => {
+    const option = document.createElement("option");
+    option.value = city;
+    option.textContent = city;
+    citySelect.appendChild(option);
+  });
+
+  citySelect.disabled = cities.length === 0;
+}); 
 setInterval(updateClock, 1000);
 </script>
 
