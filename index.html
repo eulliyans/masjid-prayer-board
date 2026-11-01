@@ -1129,6 +1129,84 @@ if (savedLocation) {
   loadCities(locationData.country);
   citySelect.value = locationData.city;
 }
+  // GPS LOCATION DETECTION
+
+const gpsButton = document.getElementById("gpsButton");
+
+gpsButton.addEventListener("click", () => {
+
+  if (!navigator.geolocation) {
+    alert("GPS is not supported by this browser.");
+    return;
+  }
+
+  gpsButton.textContent = "Detecting Location...";
+
+  navigator.geolocation.getCurrentPosition(
+
+    async (position) => {
+
+      try {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        const url =
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error("Location service unavailable");
+        }
+
+        const data = await response.json();
+
+        const country = data.countryCode;
+        const city = data.city || data.locality;
+
+        if (!cityLists[country] || !city) {
+          throw new Error("Country or city not supported");
+        }
+
+        countrySelect.value = country;
+        loadCities(country);
+
+        if (![...citySelect.options].some(option => option.value === city)) {
+          const option = document.createElement("option");
+          option.value = city;
+          option.textContent = city;
+          citySelect.appendChild(option);
+        }
+
+        citySelect.value = city;
+
+        localStorage.setItem("prayerLocation", JSON.stringify({
+          country: country,
+          city: city
+        }));
+
+        locationPanel.hidden = true;
+
+      } catch (error) {
+        alert("Could not identify your city. Please select manually.");
+      }
+
+      gpsButton.textContent = "📍 Use Current Location (GPS)";
+    },
+
+    (error) => {
+      alert("GPS permission denied or location unavailable.");
+      gpsButton.textContent = "📍 Use Current Location (GPS)";
+    },
+
+    {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0
+    }
+
+  );
+});
 setInterval(updateClock, 1000);
 </script>
 
