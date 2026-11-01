@@ -3,455 +3,269 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#075b49">
-<title>EULLIYAN'S | Daily Adhkar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123d32">
+<title>EULLIYAN'S | Adhkar After Salah</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:12px;
+  background:#eaf2e9;
+  color:#183d32;
+  font-family:Arial,sans-serif;
 }
-
-body {
-  margin: 0;
-  padding: 14px 10px 30px;
-  background: #edf7f2;
-  color: #123d32;
-  font-family: Arial, sans-serif;
+.page{
+  max-width:760px;
+  margin:auto;
+  background:#fffdf6;
+  border:1px solid #d8e4d5;
+  border-radius:15px;
+  padding:16px;
 }
-
-.container {
-  width: 100%;
-  max-width: 680px;
-  margin: auto;
+header{
+  text-align:center;
+  padding:8px 0 13px;
+  border-bottom:2px solid #d5e3d2;
+  margin-bottom:12px;
 }
-
-.hero {
-  overflow: hidden;
-  border-radius: 18px;
-  background: #075b49;
-  color: white;
-  text-align: center;
+.mosque{
+  font-size:35px;
+  margin-bottom:3px;
 }
-
-.mosque {
-  height: 190px;
-  background:
-    linear-gradient(rgba(0,55,42,.20), rgba(0,55,42,.55)),
-    url("https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=1000&q=85")
-    center/cover;
+.brand{
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:#174b3b;
 }
-
-.brand {
-  padding: 15px 10px 0;
-  font-size: 25px;
-  font-weight: 900;
-  letter-spacing: 2px;
+.subtitle{
+  font-size:12px;
+  color:#718276;
+  margin-top:5px;
 }
-
-.brand-sub {
-  padding: 5px 10px 20px;
-  font-size: 12px;
-  letter-spacing: 2px;
-  color: #d4eee2;
+h1{
+  font-size:20px;
+  text-align:center;
+  color:#174b3b;
+  margin:12px 0;
 }
-
-h1 {
-  text-align: center;
-  font-size: 25px;
-  margin: 23px 0 5px;
+.item{
+  padding:9px 2px;
+  border-bottom:1px solid #e5eadf;
 }
-
-.page-subtitle {
-  text-align: center;
-  color: #607b70;
-  font-size: 14px;
-  margin-bottom: 20px;
+.ar{
+  direction:rtl;
+  text-align:right;
+  font-family:"Times New Roman",serif;
+  font-size:25px;
+  line-height:1.9;
+  color:#172f25;
 }
-
-.section {
-  background: white;
-  border: 1px solid #d5e9df;
-  border-radius: 15px;
-  padding: 18px 13px;
-  margin-bottom: 14px;
-  box-shadow: 0 4px 13px rgba(0,60,40,.06);
+.en{
+  font-size:15px;
+  line-height:1.8;
+  color:#496b58;
+  text-align:left;
+  padding:2px 3px 0;
+  font-weight:600;
 }
-
-.section-title {
-  color: #075b49;
-  font-size: 18px;
-  font-weight: 800;
-  text-align: center;
-  margin: 2px 0 14px;
+.count{
+  display:inline-block;
+  direction:ltr;
+  color:#9b6a20;
+  font-size:15px;
+  font-weight:800;
+  white-space:nowrap;
+  margin-left:5px;
 }
-
-.item {
-  text-align: center;
-  padding: 15px 3px;
-  border-bottom: 1px solid #e5eee9;
+.section{
+  margin:13px 0 5px;
+  padding:7px 10px;
+  background:#edf4e9;
+  border-left:3px solid #548466;
+  color:#28563d;
+  font-size:14px;
+  font-weight:800;
 }
-
-.item:last-child {
-  border-bottom: none;
+.note{
+  font-size:13px;
+  color:#607466;
+  text-align:center;
+  line-height:1.7;
+  padding:7px 0;
 }
-
-.arabic {
-  direction: rtl;
-  font-family: "Traditional Arabic", "Noto Naskh Arabic", serif;
-  font-size: 25px;
-  line-height: 2;
-  color: #123d32;
-  font-weight: 600;
+footer{
+  text-align:center;
+  border-top:2px solid #d5e3d2;
+  margin-top:14px;
+  padding:13px 0 4px;
+  color:#28563d;
 }
-
-.transliteration {
-  direction: ltr;
-  font-size: 15px;
-  line-height: 1.8;
-  color: #08705b;
-  font-weight: 700;
-  margin-top: 3px;
+footer .ar{
+  text-align:center;
+  font-size:23px;
 }
-
-.meaning {
-  direction: ltr;
-  color: #687c73;
-  font-size: 13px;
-  line-height: 1.8;
-  margin-top: 7px;
+footer .en{
+  text-align:center;
+  font-size:14px;
 }
-
-.count {
-  display: inline-block;
-  color: white;
-  background: #08705b;
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-size: 14px;
-  font-weight: 800;
-  margin: 7px 0 0 7px;
-  direction: ltr;
-}
-
-.repeat-line {
-  padding: 10px 0;
-}
-
-.note {
-  color: #526f63;
-  background: #eff8f3;
-  border-radius: 10px;
-  padding: 12px;
-  text-align: center;
-  font-size: 13px;
-  line-height: 1.8;
-  margin-top: 10px;
-}
-
-.footer {
-  background: #075b49;
-  color: white;
-  text-align: center;
-  border-radius: 15px;
-  padding: 22px 12px;
-  margin-top: 20px;
-}
-
-.footer .arabic {
-  color: white;
-}
-
-.footer .transliteration {
-  color: #d4eee2;
-}
-
-@media(max-width:380px) {
-  .arabic {
-    font-size: 22px;
-  }
-
-  .transliteration {
-    font-size: 14px;
-  }
-
-  .mosque {
-    height: 155px;
-  }
+@media(max-width:420px){
+  body{padding:5px}
+  .page{padding:11px;border-radius:10px}
+  .ar{font-size:23px}
+  .en{font-size:14px}
 }
 </style>
 </head>
 
 <body>
-<main class="container">
+<main class="page">
 
-<header class="hero">
-  <div class="mosque"></div>
+<header>
+  <div class="mosque">🕌</div>
   <div class="brand">EULLIYAN'S</div>
-  <div class="brand-sub">MASJID PRAYER BOARD</div>
+  <div class="subtitle">MASJID PRAYER BOARD</div>
 </header>
 
-<h1>الأذكار بعد الصلاة المفروضة</h1>
-<div class="page-subtitle">
-  Adhkar After Obligatory Prayers
+<h1 dir="rtl">الأذكار بعد الصلاة المفروضة</h1>
+
+<div class="item">
+  <div class="ar">أَسْتَغْفِرُ اللَّهَ</div>
+  <div class="en">Astaghfirullāh. Astaghfirullāh. Astaghfirullāh.</div>
 </div>
 
-<section class="section">
-  <div class="section-title">الاستغفار والسلام</div>
+<div class="item">
+  <div class="ar">اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ</div>
+  <div class="en">Allāhumma antas-salām, wa minkas-salām, tabārakta yā dhal-jalāli wal-ikrām.</div>
+</div>
 
-  <div class="item">
-    <div class="repeat-line">
-      <div class="arabic">أَسْتَغْفِرُ اللَّهَ</div>
-      <div class="transliteration">Astaghfirullah</div>
-    </div>
+<div class="item">
+  <div class="ar">لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</div>
+  <div class="en">Lā ilāha illallāhu wahdahu lā sharīka lah, lahul-mulku wa lahul-hamdu, wa huwa ‘alā kulli shay’in qadīr.</div>
+</div>
 
-    <div class="repeat-line">
-      <div class="arabic">أَسْتَغْفِرُ اللَّهَ</div>
-      <div class="transliteration">Astaghfirullah</div>
-    </div>
+<div class="item">
+  <div class="ar">لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَلَا نَعْبُدُ إِلَّا إِيَّاهُ، لَهُ النِّعْمَةُ وَلَهُ الْفَضْلُ وَلَهُ الثَّنَاءُ الْحَسَنُ</div>
+  <div class="en">Lā hawla wa lā quwwata illā billāh. Lā ilāha illallāhu wa lā na‘budu illā iyyāh. Lahُn-ni‘matu wa lahul-fadlu wa lahuth-thanā’ul-hasan.</div>
+</div>
 
-    <div class="repeat-line">
-      <div class="arabic">أَسْتَغْفِرُ اللَّهَ</div>
-      <div class="transliteration">Astaghfirullah</div>
-    </div>
+<div class="item">
+  <div class="ar">لَا إِلَٰهَ إِلَّا اللَّهُ مُخْلِصِينَ لَهُ الدِّينَ وَلَوْ كَرِهَ الْكَافِرُونَ</div>
+  <div class="en">Lā ilāha illallāhu mukhlisīna lahud-dīna wa law karihal-kāfirūn.</div>
+  <div class="ar">اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ، وَلَا مُعْطِيَ لِمَا مَنَعْتَ، وَلَا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ</div>
+  <div class="en">Allāhumma lā māni‘a limā a‘ṭayt, wa lā mu‘ṭiya limā mana‘t, wa lā yanfa‘u dhal-jaddi minkal-jadd.</div>
+</div>
+
+<div class="section">التَّسْبِيحُ وَالتَّحْمِيدُ وَالتَّكْبِيرُ</div>
+
+<div class="item">
+  <div class="ar">
+    سُبْحَانَ اللَّهِ <span class="count">× ٣٣</span>
+    &nbsp; — &nbsp;
+    الْحَمْدُ لِلَّهِ <span class="count">× ٣٣</span>
+    &nbsp; — &nbsp;
+    اللَّهُ أَكْبَرُ <span class="count">× ٣٣</span>
   </div>
-
-  <div class="item">
-    <div class="arabic">
-      اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ
-      تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ
-    </div>
-    <div class="transliteration">
-      Allahumma Antas-Salam, wa minkas-salam,
-      tabarakta ya Dhal-Jalali wal-Ikram.
-    </div>
-    <div class="meaning">
-      O Allah, You are Peace and from You comes peace.
-      Blessed are You, Owner of Majesty and Honor.
-    </div>
+  <div class="en">
+    Subḥānallāh — thirty-three times.
+    Alḥamdulillāh — thirty-three times.
+    Allāhu Akbar — thirty-three times.
   </div>
-</section>
+</div>
 
-<section class="section">
-  <div class="section-title">التسبيح والتحميد والتكبير</div>
+<div class="item">
+  <div class="ar">لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</div>
+  <div class="en">Lā ilāha illallāhu waḥdahu lā sharīka lah, lahul-mulku wa lahul-ḥamdu, wa huwa ‘alā kulli shay’in qadīr.</div>
+  <div class="note">إتمام المائة — Completing the hundredth remembrance.</div>
+</div>
 
-  <div class="item">
-    <div class="arabic">سُبْحَانَ اللَّهِ</div>
-    <div class="transliteration">Subhanallah</div>
-    <span class="count">× 33</span>
+<div class="section">آيَةُ الْكُرْسِيِّ — سورة البقرة ٢:٢٥٥</div>
+
+<div class="item">
+  <div class="ar">
+    اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ
+    لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ
+    لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ
+    مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ
+    يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ
+    وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ
+    وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ
+    وَلَا يَئُودُهُ حِفْظُهُمَا ۚ
+    وَهُوَ الْعَلِيُّ الْعَظِيمُ
   </div>
-
-  <div class="item">
-    <div class="arabic">الْحَمْدُ لِلَّهِ</div>
-    <div class="transliteration">Alhamdulillah</div>
-    <span class="count">× 33</span>
+  <div class="en">
+    Allāhu lā ilāha illā huwa al-ḥayyul-qayyūm.
+    Lā ta’khudhuhu sinatun wa lā nawm.
+    Lahu mā fis-samāwāti wa mā fil-arḍ.
+    Man dhal-ladhī yashfa‘u ‘indahu illā bi’idhnih.
+    Ya‘lamu mā bayna aydīhim wa mā khalfahum.
+    Wa lā yuḥīṭūna bishay’im-min ‘ilmihī illā bimā shā’.
+    Wasi‘a kursiyyuhus-samāwāti wal-arḍ.
+    Wa lā ya’ūduhu ḥifẓuhumā.
+    Wa huwal-‘aliyyul-‘aẓīm.
   </div>
+</div>
 
-  <div class="item">
-    <div class="arabic">اللَّهُ أَكْبَرُ</div>
-    <div class="transliteration">Allahu Akbar</div>
-    <span class="count">× 33</span>
+<div class="section">سُوَرُ الْإِخْلَاصِ وَالْفَلَقِ وَالنَّاسِ</div>
+<div class="note">بعد كل صلاة مرة واحدة، وبعد الفجر والمغرب ثلاث مرات.</div>
+
+<div class="item">
+  <div class="ar">
+    قُلْ هُوَ اللَّهُ أَحَدٌ ۝
+    اللَّهُ الصَّمَدُ ۝
+    لَمْ يَلِدْ وَلَمْ يُولَدْ ۝
+    وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ
   </div>
-
-  <div class="item">
-    <div class="arabic">
-      لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ،
-      لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ،
-      وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ
-    </div>
-    <div class="transliteration">
-      La ilaha illallahu wahdahu la sharika lah,
-      lahul-mulku wa lahul-hamdu,
-      wa huwa 'ala kulli shay'in qadir.
-    </div>
-    <div class="meaning">
-      There is no god but Allah alone, without partner.
-      His is the dominion and praise, and He has power over everything.
-    </div>
-    <span class="count">× 1</span>
+  <div class="en">
+    Qul huwallāhu aḥad.
+    Allāhuṣ-ṣamad.
+    Lam yalid wa lam yūlad.
+    Wa lam yakul-lahū kufuwan aḥad.
   </div>
-</section>
+</div>
 
-<section class="section">
-  <div class="section-title">أذكار التوحيد</div>
-
-  <div class="item">
-    <div class="arabic">
-      لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ،
-      لَا إِلَٰهَ إِلَّا اللَّهُ وَلَا نَعْبُدُ إِلَّا إِيَّاهُ،
-      لَهُ النِّعْمَةُ وَلَهُ الْفَضْلُ وَلَهُ الثَّنَاءُ الْحَسَنُ،
-      لَا إِلَٰهَ إِلَّا اللَّهُ مُخْلِصِينَ لَهُ الدِّينَ
-      وَلَوْ كَرِهَ الْكَافِرُونَ
-    </div>
-    <div class="transliteration">
-      La hawla wa la quwwata illa billah.
-      La ilaha illallah wa la na'budu illa iyyah.
-      Lahun-ni'matu wa lahul-fadlu wa lahuth-thana'ul-hasan.
-      La ilaha illallah mukhlisina lahud-dina
-      wa law karihal-kafirun.
-    </div>
-    <div class="meaning">
-      There is no power nor strength except through Allah.
-      We worship none but Him. All blessings, grace and
-      good praise belong to Him.
-    </div>
+<div class="item">
+  <div class="ar">
+    قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝
+    مِنْ شَرِّ مَا خَلَقَ ۝
+    وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝
+    وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝
+    وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ
   </div>
-
-  <div class="item">
-    <div class="arabic">
-      اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ،
-      وَلَا مُعْطِيَ لِمَا مَنَعْتَ،
-      وَلَا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ
-    </div>
-    <div class="transliteration">
-      Allahumma la mani'a lima a'tayta,
-      wa la mu'tiya lima mana'ta,
-      wa la yanfa'u dhal-jaddi minkal-jadd.
-    </div>
-    <div class="meaning">
-      O Allah, none can withhold what You give,
-      and none can give what You withhold.
-      Wealth and power cannot benefit anyone against You.
-    </div>
+  <div class="en">
+    Qul a‘ūdhu birabbil-falaq.
+    Min sharri mā khalaq.
+    Wa min sharri ghāsiqin idhā waqab.
+    Wa min sharrin-naffāthāti fil-‘uqad.
+    Wa min sharri ḥāsidin idhā ḥasad.
   </div>
-</section>
+</div>
 
-<section class="section">
-  <div class="section-title">آيَةُ الْكُرْسِيِّ</div>
-
-  <div class="item">
-    <div class="arabic">
-      اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ
-      لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ
-      لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ
-      مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ
-      يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ
-      وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ
-      وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ
-      وَلَا يَئُودُهُ حِفْظُهُمَا ۚ
-      وَهُوَ الْعَلِيُّ الْعَظِيمُ
-    </div>
-
-    <div class="transliteration">
-      Allahu la ilaha illa Huwal-Hayyul-Qayyum.
-      La ta'khudhuhu sinatuw wa la nawm.
-      Lahu ma fis-samawati wa ma fil-ard.
-      Man dhal-ladhi yashfa'u 'indahu illa bi-idhnih.
-      Ya'lamu ma bayna aydihim wa ma khalfahum.
-      Wa la yuhituna bishay'im-min 'ilmihi illa bima sha'.
-      Wasi'a kursiyyuhus-samawati wal-ard.
-      Wa la ya'uduhu hifzuhuma wa Huwal-'Aliyyul-'Azim.
-    </div>
-
-    <div class="meaning">
-      Allah — there is no deity except Him, the Ever-Living,
-      the Sustainer of all existence...
-      Surah Al-Baqarah, 2:255.
-    </div>
+<div class="item">
+  <div class="ar">
+    قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝
+    مَلِكِ النَّاسِ ۝
+    إِلَٰهِ النَّاسِ ۝
+    مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝
+    الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝
+    مِنَ الْجِنَّةِ وَالنَّاسِ
   </div>
-</section>
-
-<section class="section">
-  <div class="section-title">سُوَرُ الْقُرْآنِ</div>
-
-  <div class="item">
-    <div class="section-title">سُورَةُ الْإِخْلَاصِ</div>
-    <div class="arabic">
-      بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-      قُلْ هُوَ اللَّهُ أَحَدٌ ۝
-      اللَّهُ الصَّمَدُ ۝
-      لَمْ يَلِدْ وَلَمْ يُولَدْ ۝
-      وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ
-    </div>
-    <div class="transliteration">
-      Bismillahir-Rahmanir-Rahim.
-      Qul Huwallahu Ahad.
-      Allahus-Samad.
-      Lam yalid wa lam yulad.
-      Wa lam yakul-lahu kufuwan ahad.
-    </div>
-    <div class="meaning">
-      Say: He is Allah, the One.
-      Allah, the Eternal Refuge.
-      He neither begets nor is born,
-      nor is there to Him any equivalent.
-    </div>
+  <div class="en">
+    Qul a‘ūdhu birabbin-nās.
+    Malikin-nās.
+    Ilāhin-nās.
+    Min sharril-waswāsil-khannās.
+    Alladhī yuwaswisu fī ṣudūrin-nās.
+    Minal-jinnati wan-nās.
   </div>
+</div>
 
-  <div class="item">
-    <div class="section-title">سُورَةُ الْفَلَقِ</div>
-    <div class="arabic">
-      بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-      قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝
-      مِنْ شَرِّ مَا خَلَقَ ۝
-      وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝
-      وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝
-      وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ
-    </div>
-    <div class="transliteration">
-      Bismillahir-Rahmanir-Rahim.
-      Qul a'udhu bi Rabbil-Falaq.
-      Min sharri ma khalaq.
-      Wa min sharri ghasiqin idha waqab.
-      Wa min sharrin-naffathati fil-'uqad.
-      Wa min sharri hasidin idha hasad.
-    </div>
-    <div class="meaning">
-      Say: I seek refuge in the Lord of daybreak,
-      from the evil of what He created,
-      from the evil of darkness when it settles,
-      from the evil of those who blow on knots,
-      and from the evil of an envier when he envies.
-    </div>
-  </div>
-
-  <div class="item">
-    <div class="section-title">سُورَةُ النَّاسِ</div>
-    <div class="arabic">
-      بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-      قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝
-      مَلِكِ النَّاسِ ۝
-      إِلَٰهِ النَّاسِ ۝
-      مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝
-      الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝
-      مِنَ الْجِنَّةِ وَالنَّاسِ
-    </div>
-    <div class="transliteration">
-      Bismillahir-Rahmanir-Rahim.
-      Qul a'udhu bi Rabbin-Nas.
-      Malikin-Nas.
-      Ilahin-Nas.
-      Min sharril-waswasil-khannas.
-      Alladhi yuwaswisu fi sudurin-Nas.
-      Minal-jinnati wan-Nas.
-    </div>
-    <div class="meaning">
-      Say: I seek refuge in the Lord of mankind,
-      the King of mankind, the God of mankind,
-      from the evil of the retreating whisperer,
-      who whispers in the hearts of mankind,
-      from among jinn and mankind.
-    </div>
-  </div>
-
-  <div class="note">
-    প্রতিটি সূরা সাধারণ নামাজের পর ১ বার।
-    ফজর ও মাগরিবের পর ৩ বার।
-    <br>
-    Each Surah: once after other prayers;
-    three times after Fajr and Maghrib.
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="arabic">
-    لَا تَنْسُونَا مِنْ صَالِحِ دُعَائِكُمْ
-  </div>
-  <div class="transliteration">
-    La tansuna min salihi du'a'ikum
-  </div>
-  <p>Remember us in your sincere prayers.</p>
-  <div class="brand-sub">EULLIYAN'S</div>
+<footer>
+  <div class="ar">لَا تَنْسُونَا مِنْ صَالِحِ دُعَائِكُمْ</div>
+  <div class="en">Lā tansawnā min ṣāliḥi du‘ā’ikum.</div>
+  <div class="subtitle">EULLIYAN'S</div>
 </footer>
 
 </main>
