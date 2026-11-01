@@ -1088,8 +1088,8 @@ const cityLists = {
   PK: ["Karachi", "Lahore", "Islamabad", "Peshawar"]
 };
 
-countrySelect.addEventListener("change", () => {
-  const cities = cityLists[countrySelect.value] || [];
+function loadCities(country) {
+  const cities = cityLists[country] || [];
 
   citySelect.innerHTML = '<option value="">Select City</option>';
 
@@ -1101,7 +1101,34 @@ countrySelect.addEventListener("change", () => {
   });
 
   citySelect.disabled = cities.length === 0;
-}); 
+}
+
+countrySelect.addEventListener("change", () => {
+  loadCities(countrySelect.value);
+  citySelect.value = "";
+});
+
+citySelect.addEventListener("change", () => {
+  if (!countrySelect.value || !citySelect.value) return;
+
+  localStorage.setItem("prayerLocation", JSON.stringify({
+    country: countrySelect.value,
+    city: citySelect.value
+  }));
+
+  locationPanel.hidden = true;
+});
+
+// Restore saved location
+const savedLocation = localStorage.getItem("prayerLocation");
+
+if (savedLocation) {
+  const locationData = JSON.parse(savedLocation);
+
+  countrySelect.value = locationData.country;
+  loadCities(locationData.country);
+  citySelect.value = locationData.city;
+}
 setInterval(updateClock, 1000);
 </script>
 
