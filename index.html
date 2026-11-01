@@ -233,6 +233,7 @@ padding: 24px 4px;
   transition: .2s ease;
   display: flex;
   flex-direction: column;
+  gap: 3px;
   align-items: center;
   justify-content: center;
   color: white;
@@ -245,8 +246,8 @@ padding: 24px 4px;
 }
 
 .prayer-icon {
-  font-size: clamp(20px, 5vw, 27px);
-  margin-bottom: 9px;
+  font-size: clamp(24px, 6vw, 32px);
+  margin-bottom: 10px;
 }
 
 .prayer-name {
@@ -302,7 +303,8 @@ padding: 24px 4px;
 
 .jamaat-card {
   min-width: 0;
-  padding: 19px 4px;
+  min-height: 100px;
+  padding: 22px 4px;
   border-radius: 14px;
   background: rgba(0,183,195,.12);
   border: 1px solid rgba(0,183,195,.35);
@@ -310,14 +312,14 @@ padding: 24px 4px;
 
 .jamaat-card .schedule-prayer {
   color: white;
-  font-size: clamp(10px, 2.6vw, 14px);
+  font-size: clamp(12px, 3vw, 16px);
   font-weight: 800;
   white-space: nowrap;
 }
 
 .jamaat-time {
   color: #71f5e4;
-  font-size: clamp(11px, 2.7vw, 15px);
+  font-size: clamp(12px, 3vw, 16px);
   font-weight: 800;
   margin-top: 11px;
   white-space: nowrap;
@@ -480,8 +482,9 @@ padding: 24px 4px;
   }
 
   .jamaat-card {
-    padding: 14px 3px;
-  }
+  min-height: 90px;
+  padding: 18px 3px;
+}
 
   .jamaat-time {
     margin-top: 7px;
