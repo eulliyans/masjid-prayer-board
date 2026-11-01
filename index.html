@@ -106,13 +106,14 @@ body {
   letter-spacing: .5px;
 }
 
-/* LANGUAGE */
+/* LANGUAGE & LOCATION */
 
 .languages {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: center;
   gap: 8px;
-  margin: 0 auto 12px;
+  margin: 0 8px 12px;
   position: relative;
   z-index: 3;
 }
@@ -121,10 +122,11 @@ body {
   border: 1px solid rgba(0,110,105,.25);
   background: #075b52;
   color: white;
-  padding: 7px 15px;
+  padding: 7px 12px;
   border-radius: 20px;
   font-size: 12px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .languages button.active {
@@ -628,11 +630,17 @@ padding: 24px 4px;
     </div>
   </header>
 
-  <!-- LANGUAGE SWITCH -->
-  <nav class="languages" aria-label="Language">
+ <!-- LANGUAGE & LOCATION SWITCH -->
+<nav class="languages" aria-label="Language and Location">
+
   <button class="active" id="languageButton">
-     🌐 English 
+    🌐 English
   </button>
+
+  <button type="button" id="locationButton">
+    📍 Location
+  </button>
+
 </nav>
 
   <!-- MAIN BOARD -->
