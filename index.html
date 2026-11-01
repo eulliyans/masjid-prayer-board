@@ -296,10 +296,12 @@ padding: 24px 4px;
 }
 
 .schedule-title {
-  color: #baf5e9;
-  font-size: 16px;
-  font-weight: 800;
-  margin-bottom: 5px;
+  color: #ffffff;
+  font-size: clamp(17px, 4vw, 21px);
+  font-weight: 900;
+  margin-bottom: 16px;
+  padding: 8px 0;
+  letter-spacing: .5px;
 }
 
 .schedule-subtitle {
@@ -324,18 +326,17 @@ padding: 24px 4px;
   background: rgba(0,183,195,.12);
   border: 1px solid rgba(0,183,195,.35);
 }
-
 .jamaat-card .schedule-prayer {
   color: white;
-  font-size: clamp(12px, 3vw, 16px);
-  font-weight: 800;
+  font-size: clamp(13px, 3.5vw, 17px);
+  font-weight: 850;
   white-space: nowrap;
 }
 
 .jamaat-time {
   color: #71f5e4;
-  font-size: clamp(12px, 3vw, 16px);
-  font-weight: 800;
+  font-size: clamp(13px, 3.5vw, 17px);
+  font-weight: 850;
   margin-top: 11px;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
@@ -353,21 +354,38 @@ padding: 24px 4px;
 }
 
 /* AZAN & JAMAAT DIVIDER */
-
 .prayer-jamaat-divider {
   width: 100%;
   margin: 20px 0 16px;
-  padding: 9px 6px;
+  padding: 14px 8px;
+  min-height: 60px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   border: 1px solid rgba(0,183,195,.40);
   border-radius: 10px;
   background: #e1f8f5;
   color: #075b52;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 850;
   letter-spacing: 1px;
 }
+  /* JAMAAT NOTE */
 
+.schedule-note {
+  color: #ffffff;
+  background: #00a99d;
+  border: 1px solid #54d8c9;
+  border-radius: 10px;
+  padding: 12px 10px;
+  margin-top: 16px;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.6;
+  text-align: center;
+}
 /* DEMO NOTICE */
 
 .notice {
@@ -491,10 +509,11 @@ padding: 24px 4px;
     padding: 11px 9px;
   }
 
-  .prayer-jamaat-divider {
-    margin: 10px 0 9px;
-    padding: 7px 5px;
-  }
+ .prayer-jamaat-divider {
+  margin: 10px 0 9px;
+  padding: 14px 8px;
+  min-height: 60px;
+}
 
   .jamaat-card {
   min-height: 90px;
@@ -506,8 +525,8 @@ padding: 24px 4px;
   }
 
   .schedule-note {
-    margin-top: 8px;
-  }
+  margin-top: 12px;
+}
 }
 
 @media (max-height: 700px) {
@@ -530,76 +549,8 @@ padding: 24px 4px;
     height: 65px;
   }
 }
-/* JAMAAT SECTION ENHANCEMENT */
-
-.jamaat-section-title {
-  padding: 15px 10px;
-  min-height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.jamaat-heading {
-  font-size: clamp(15px, 3.8vw, 19px);
-  font-weight: 850;
-}
-
-.schedule-prayer {
-  font-size: clamp(14px, 3.5vw, 17px) !important;
-  font-weight: 800;
-}
-
-.jamaat-time {
-  font-size: clamp(15px, 3.8vw, 18px) !important;
-  font-weight: 850;
-}
-
-.jamaat-note {
-  font-size: clamp(13px, 3.4vw, 16px);
-  line-height: 1.6;
-  font-weight: 600;
-}
-  /* JAMAAT DESIGN UPDATE */
-
-.prayer-jamaat-divider {
-  padding: 18px 10px;
-  min-height: 65px;
-  box-sizing: border-box;
-}
-
-.prayer-jamaat-divider span {
-  font-size: clamp(13px, 3.5vw, 17px);
-  font-weight: 850;
-}
-
-.schedule-title {
-  font-size: clamp(17px, 4vw, 21px);
-  font-weight: 900;
-}
-
-.jamaat-icon {
-  font-size: clamp(20px, 5vw, 27px);
-  line-height: 1.2;
-  margin-bottom: 5px;
-}
-
-.schedule-prayer {
-  font-size: clamp(13px, 3.3vw, 16px) !important;
-  font-weight: 800;
-}
-
-.jamaat-time {
-  font-size: clamp(14px, 3.5vw, 18px) !important;
-  font-weight: 850;
-}
-
-.schedule-note {
-  font-size: clamp(14px, 3.5vw, 17px);
-  font-weight: 600;
-  line-height: 1.6;
-}
-</style>
+  
+  </style>
 </head>
 
 <body>
