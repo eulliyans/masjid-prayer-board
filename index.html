@@ -138,13 +138,28 @@ body {
 
 .main {
   width: 100%;
-  max-width: none;
-  margin: 0 auto;
-  padding-left: 8px;
-  padding-right: 8px;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0 5px 20px;
+  box-sizing: border-box;
   position: relative;
   z-index: 2;
-  flex: 1;
+  flex: 1 0 auto;
+}
+
+.prayer-grid,
+.jamaat-grid {
+  width: 100%;
+  max-width: 100%;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  box-sizing: border-box;
+}
+
+.prayer-card,
+.jamaat-card {
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .clock-box {
