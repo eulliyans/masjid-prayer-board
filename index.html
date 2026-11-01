@@ -642,7 +642,27 @@ padding: 24px 4px;
   </button>
 
 </nav>
+<!-- LOCATION SETTINGS -->
+<div class="location-panel" id="locationPanel" hidden>
 
+  <button type="button" id="gpsButton">
+    📍 Use Current Location (GPS)
+  </button>
+
+  <select id="countrySelect">
+    <option value="">Select Country</option>
+    <option value="SA">Saudi Arabia</option>
+    <option value="BD">Bangladesh</option>
+    <option value="AE">United Arab Emirates</option>
+    <option value="IN">India</option>
+    <option value="PK">Pakistan</option>
+  </select>
+
+  <select id="citySelect" disabled>
+    <option value="">Select City</option>
+  </select>
+
+</div>
   <!-- MAIN BOARD -->
   <main class="main">
 
