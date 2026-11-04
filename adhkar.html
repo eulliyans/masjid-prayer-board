@@ -4,117 +4,393 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#064b39">
 <title>EULLIYAN'S | Adhkar After Salah</title>
 
 <style>
+:root {
+  --green: #07513d;
+  --dark: #003e2e;
+  --gold: #e9d58a;
+  --cream: #fffdf1;
+  --mint: #e4f6e9;
+  --border: #187c60;
+  --text: #103c30;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  padding: 12px;
-  background: #145b43;
-  color: #103b36;
+  padding: 15px;
   font-family: Arial, sans-serif;
+  background: #e5f3e9;
+  color: var(--text);
 }
 
-.page {
-  max-width: 1000px;
+.poster {
+  max-width: 1050px;
   margin: auto;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #a6d9c1;
+  background:
+    radial-gradient(circle at 50% 30%, #ffffff 0%, #f4fff5 65%, #d9f0df 100%);
+  box-shadow: 0 8px 30px #003e3020;
+  padding: 18px 20px 0;
 }
 
-header {
+/* Header */
+
+.header {
   text-align: center;
-  color: white;
-  padding: 8px 5px 14px;
+  position: relative;
+  padding: 5px 75px 16px;
 }
 
 .brand {
-  font-size: 22px;
+  display: inline-block;
+  background: linear-gradient(120deg, #003e2e, #08775a);
+  color: white;
+  border: 3px solid var(--gold);
+  border-radius: 18px;
+  padding: 8px 25px;
+  font-size: clamp(24px, 4vw, 38px);
   font-weight: 900;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
-header h1 {
-  font-size: 21px;
-  margin: 8px 0 3px;
+.crescent {
+  color: var(--gold);
+  margin-left: 8px;
 }
 
-header p {
-  font-size: 13px;
+.heading-ar {
+  font-family: "Times New Roman", serif;
+  font-size: clamp(26px, 5vw, 45px);
+  font-weight: bold;
+  margin: 9px 0 2px;
+  color: var(--green);
+  direction: rtl;
+}
+
+.heading-en {
+  font-size: clamp(14px, 2.5vw, 24px);
+  font-weight: 900;
+  color: var(--green);
   margin: 0;
-  opacity: .9;
 }
+
+/* Decorative minarets */
+
+.minaret {
+  position: absolute;
+  top: 12px;
+  width: 62px;
+  height: 145px;
+  opacity: .35;
+}
+
+.minaret.left {
+  left: 5px;
+}
+
+.minaret.right {
+  right: 5px;
+  transform: scaleX(-1);
+}
+
+.minaret .tower {
+  position: absolute;
+  width: 20px;
+  height: 105px;
+  left: 21px;
+  top: 30px;
+  border: 4px solid #319c78;
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+}
+
+.minaret .roof {
+  position: absolute;
+  left: 11px;
+  top: 9px;
+  width: 40px;
+  height: 32px;
+  background: #319c78;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.minaret .balcony {
+  position: absolute;
+  left: 14px;
+  top: 53px;
+  width: 35px;
+  height: 5px;
+  background: #319c78;
+  box-shadow: 0 24px #319c78;
+}
+
+/* Prayer cards */
+
+.card {
+  position: relative;
+  background: linear-gradient(180deg, #fffef5, #e8f6e9);
+  border: 2px solid var(--border);
+  border-radius: 17px;
+  padding: 12px 13px;
+  margin: 8px 0;
+  text-align: center;
+  box-shadow: 0 3px 0 #b8ddc8;
+}
+
+.card-title {
+  display: inline-block;
+  background: linear-gradient(100deg, #064b38, #087657);
+  border: 2px solid #d8eedb;
+  border-radius: 30px;
+  color: var(--gold);
+  font-size: clamp(14px, 2.2vw, 21px);
+  font-weight: bold;
+  padding: 4px 19px;
+  margin: -2px auto 7px;
+}
+
+.arabic {
+  direction: rtl;
+  font-family: "Times New Roman", serif;
+  font-size: clamp(19px, 3vw, 29px);
+  line-height: 1.65;
+  color: #103c30;
+  margin: 3px 0;
+  font-weight: 600;
+}
+
+.english {
+  font-size: clamp(11px, 1.6vw, 16px);
+  line-height: 1.5;
+  color: #315c4c;
+  margin: 4px 0 0;
+}
+
+/* Istighfar */
+
+.istighfar {
+  background: linear-gradient(120deg, #07553e, #003d2e);
+  border: 3px solid #d8edcf;
+  outline: 1px solid #0b8a65;
+  color: white;
+  padding: 13px;
+  border-radius: 22px;
+  margin: 8px 0 13px;
+}
+
+.istighfar .card-title {
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-size: clamp(20px, 3vw, 27px);
+}
+
+.istighfar .arabic {
+  color: white;
+  font-size: clamp(29px, 5vw, 46px);
+  font-weight: bold;
+}
+
+.istighfar .english {
+  color: #f4f4df;
+  font-size: clamp(12px, 1.8vw, 17px);
+}
+
+.count {
+  display: inline-block;
+  background: #fff9df;
+  color: #07513d;
+  font-weight: 900;
+  font-size: 20px;
+  padding: 4px 13px;
+  border-radius: 30px;
+  margin-top: 7px;
+}
+
+/* Two-column arrangement */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 9px;
+  gap: 8px;
 }
 
-.card {
-  background: #fff;
-  border: 2px solid #38c6c5;
-  border-radius: 11px;
-  padding: 10px;
+/* Three Surahs */
+
+.surah-area {
+  position: relative;
+  border: 2px solid var(--border);
+  border-radius: 17px;
+  margin: 16px 0 9px;
+  padding: 15px 8px 9px;
+  background: #f9fff4;
+}
+
+.surah-title {
+  position: absolute;
+  top: -17px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: #07513d;
+  border: 2px solid #e5f3df;
+  border-radius: 25px;
+  color: var(--gold);
+  font-size: 19px;
+  padding: 4px 20px;
+  font-weight: bold;
+}
+
+.surah-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.surah {
+  background: #fffbea;
+  border: 2px solid #28674e;
+  border-radius: 12px;
+  padding: 9px 4px;
   text-align: center;
-  box-shadow: 0 2px 5px #073c3040;
 }
 
-.card h2 {
-  color: #087b65;
-  font-size: 15px;
-  margin: 0 0 6px;
+.surah .arabic {
+  font-size: clamp(17px, 2.6vw, 25px);
 }
 
-.arabic {
-  font-family: "Times New Roman", serif;
-  font-size: 21px;
-  line-height: 1.65;
-  direction: rtl;
-  margin: 5px 0;
-  color: #123f32;
+.surah .english {
+  font-weight: bold;
+  font-size: clamp(10px, 1.5vw, 15px);
 }
 
-.trans {
-  font-size: 12px;
-  line-height: 1.5;
-  color: #45665a;
-  margin: 4px 0;
-}
+/* Note */
 
 .note {
-  background: #e0f7f3;
-  border-radius: 7px;
-  padding: 7px;
-  margin-top: 7px;
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-.first {
-  grid-column: 1 / -1;
-  background: #f0fff9;
-}
-
-.first .arabic {
-  font-size: 25px;
-  color: #087b65;
-}
-
-footer {
+  border: 2px solid #28674e;
+  border-radius: 14px;
+  background: #e7f6e8;
+  padding: 9px;
   text-align: center;
-  color: white;
-  font-family: "Times New Roman", serif;
-  font-size: 19px;
-  direction: rtl;
-  padding: 16px 5px 8px;
+  margin: 10px 0;
 }
 
-@media (max-width: 520px) {
+.note .card-title {
+  margin-top: -20px;
+}
+
+.note .arabic {
+  font-size: clamp(17px, 2.4vw, 24px);
+}
+
+.note .english {
+  font-size: clamp(11px, 1.6vw, 15px);
+}
+
+/* Ayatul Kursi */
+
+.ayatul {
+  max-width: 75%;
+  margin: 14px auto 20px;
+}
+
+/* Footer mosque silhouette */
+
+.footer {
+  position: relative;
+  margin: 15px -20px 0;
+  padding: 36px 10px 17px;
+  text-align: center;
+  background: linear-gradient(180deg, #087456, #003e2e);
+  border-top: 4px solid #c6e7c5;
+}
+
+.footer:before,
+.footer:after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  width: 120px;
+  height: 75px;
+  background: #087456;
+  clip-path: polygon(
+    0 100%, 0 75%, 15% 75%, 15% 50%,
+    25% 50%, 25% 20%, 35% 50%, 35% 100%,
+    50% 100%, 50% 55%, 65% 55%, 65% 25%,
+    75% 55%, 75% 100%, 100% 100%
+  );
+}
+
+.footer:before {
+  left: 0;
+}
+
+.footer:after {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.footer-text {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  color: var(--gold);
+  background: #064b38;
+  border: 3px double var(--gold);
+  border-radius: 35px;
+  padding: 8px 24px;
+  font-family: "Times New Roman", serif;
+  font-size: clamp(19px, 3vw, 30px);
+  direction: rtl;
+  font-weight: bold;
+}
+
+/* Mobile */
+
+@media(max-width: 600px) {
   body {
-    padding: 7px;
+    padding: 0;
+  }
+
+  .poster {
+    padding: 9px 8px 0;
+    border: none;
+  }
+
+  .header {
+    padding: 5px 40px 12px;
+  }
+
+  .brand {
+    font-size: 23px;
+    padding: 6px 14px;
+  }
+
+  .heading-ar {
+    font-size: 25px;
+  }
+
+  .heading-en {
+    font-size: 14px;
+  }
+
+  .minaret {
+    transform: scale(.65);
+    transform-origin: top left;
+  }
+
+  .minaret.right {
+    transform: scaleX(-.65) scaleY(.65);
+    transform-origin: top right;
   }
 
   .grid {
@@ -122,147 +398,324 @@ footer {
   }
 
   .card {
-    padding: 8px 5px;
-    border-radius: 9px;
+    padding: 8px 6px;
+    margin: 5px 0;
+    border-radius: 12px;
   }
 
-  .card h2 {
-    font-size: 12px;
+  .card-title {
+    font-size: 13px;
+    padding: 3px 9px;
   }
 
   .arabic {
-    font-size: 17px;
+    font-size: clamp(15px, 4vw, 21px);
+    line-height: 1.55;
   }
 
-  .trans {
+  .english {
     font-size: 10px;
   }
 
-  .first .arabic {
-    font-size: 22px;
+  .istighfar {
+    padding: 10px 6px;
   }
 
-  header h1 {
-    font-size: 17px;
+  .istighfar .arabic {
+    font-size: 30px;
   }
 
-  .brand {
+  .istighfar .english {
+    font-size: 11px;
+  }
+
+  .surah-grid {
+    gap: 4px;
+  }
+
+  .surah {
+    padding: 7px 2px;
+  }
+
+  .surah .arabic {
+    font-size: 15px;
+  }
+
+  .surah .english {
+    font-size: 9px;
+  }
+
+  .surah-title {
+    font-size: 16px;
+    padding: 3px 12px;
+  }
+
+  .note .arabic {
+    font-size: 16px;
+  }
+
+  .ayatul {
+    max-width: 88%;
+  }
+
+  .footer {
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+
+  .footer-text {
     font-size: 19px;
+    padding: 6px 14px;
+  }
+
+  .footer:before,
+  .footer:after {
+    width: 75px;
+    height: 55px;
+  }
+}
+
+@media(max-width: 360px) {
+  .grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
 </head>
 
 <body>
-<div class="page">
 
-<header>
-  <div class="brand">EULLIYAN'S</div>
-  <h1>الأذكار بعد الصلاة المفروضة</h1>
-  <p>ADHKAR AFTER OBLIGATORY PRAYER</p>
+<div class="poster">
+
+<header class="header">
+
+  <div class="minaret left">
+    <div class="roof"></div>
+    <div class="tower"></div>
+    <div class="balcony"></div>
+  </div>
+
+  <div class="minaret right">
+    <div class="roof"></div>
+    <div class="tower"></div>
+    <div class="balcony"></div>
+  </div>
+
+  <div class="brand">
+    EULLIYAN’S <span class="crescent">☪</span>
+  </div>
+
+  <div class="heading-ar">
+    الأذكار بعد الصلاة المفروضة
+  </div>
+
+  <div class="heading-en">
+    ADHKAR AFTER OBLIGATORY PRAYER
+  </div>
+
 </header>
 
-<main class="grid">
+<!-- ISTIGHFAR FIRST -->
 
-  <section class="card first">
-    <h2>الاستغفار · ISTIGHFAR × 3</h2>
-    <div class="arabic">أَسْتَغْفِرُ اللَّهَ</div>
-    <div class="trans">
-      Astaghfirullah · Astaghfirullah · Astaghfirullah
-    </div>
-  </section>
+<section class="card istighfar">
+
+  <div class="card-title">
+    الاستغفار · ISTIGHFAR
+  </div>
+
+  <div class="arabic">
+    أَسْتَغْفِرُ اللَّهَ
+  </div>
+
+  <div class="english">
+    Astaghfirullah · Astaghfirullah · Astaghfirullah
+  </div>
+
+  <div class="count">× 3</div>
+
+</section>
+
+<!-- MAIN ADHKAR -->
+
+<div class="grid">
 
   <section class="card">
-    <h2>دعاء السلام</h2>
+
+    <div class="card-title">دعاء السلام</div>
+
     <div class="arabic">
       اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ
       تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ
     </div>
-    <div class="trans">
+
+    <div class="english">
       Allahumma antas-salam, wa minkas-salam,
       tabarakta ya dhal-jalali wal-ikram.
     </div>
+
   </section>
 
   <section class="card">
-    <h2>لا حول ولا قوة إلا بالله</h2>
+
+    <div class="card-title">
+      لا حول ولا قوة إلا بالله
+    </div>
+
     <div class="arabic">
       لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ،
       لَا إِلَهَ إِلَّا اللَّهُ وَلَا نَعْبُدُ إِلَّا إِيَّاهُ،
       لَهُ النِّعْمَةُ وَلَهُ الْفَضْلُ وَلَهُ الثَّنَاءُ الْحَسَنُ
     </div>
-    <div class="trans">
+
+    <div class="english">
       La hawla wa la quwwata illa billah.
       La ilaha illallahu wa la na'budu illa iyyah.
-      Lah an-ni'matu wa lahul-fadlu wa lahuth-thana'ul-hasan.
+      Lahun-ni'matu wa lahul-fadlu wa lahuth-thana'ul-hasan.
     </div>
+
   </section>
 
   <section class="card">
-    <h2>التسبيح · TASBIH</h2>
+
+    <div class="card-title">
+      التسبيح · TASBIH
+    </div>
+
     <div class="arabic">
       سُبْحَانَ اللَّهِ × ٣٣<br>
       الْحَمْدُ لِلَّهِ × ٣٣<br>
       اللَّهُ أَكْبَرُ × ٣٣
     </div>
-    <div class="trans">
+
+    <div class="english">
       Subhanallah · Alhamdulillah · Allahu Akbar
     </div>
+
   </section>
 
   <section class="card">
-    <h2>التهليل · TAHLIL</h2>
+
+    <div class="card-title">
+      التهليل · TAHLIL
+    </div>
+
     <div class="arabic">
       لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ،
       لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ،
       وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ
     </div>
+
   </section>
 
   <section class="card">
-    <h2>التوحيد · TAWHEED</h2>
+
+    <div class="card-title">
+      التوحيد · TAWHEED
+    </div>
+
     <div class="arabic">
       لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ،
       لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ،
       وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ
     </div>
-    <div class="trans">
+
+    <div class="english">
       La ilaha illallahu wahdahu la sharika lah,
       lahul-mulku wa lahul-hamdu,
       wa huwa 'ala kulli shay'in qadir.
     </div>
+
   </section>
 
   <section class="card">
-    <h2>السور الثلاث · THREE SURAHS</h2>
+
+    <div class="card-title">
+      آية الكرسي
+    </div>
+
     <div class="arabic">
-      سُورَةُ الْإِخْلَاصِ<br>
-      سُورَةُ الْفَلَقِ<br>
-      سُورَةُ النَّاسِ
+      آيَةُ الْكُرْسِيِّ
     </div>
-    <div class="trans">
-      Surah Al-Ikhlas · Surah Al-Falaq · Surah An-Nas
+
+    <div class="english">
+      Ayatul Kursi
     </div>
-    <div class="note">
-      بَعْدَ كُلِّ صَلَاةٍ مَرَّةً وَاحِدَةً،
-      وَبَعْدَ الْفَجْرِ وَالْمَغْرِبِ ثَلَاثَ مَرَّاتٍ
-      <br>
-      After each prayer once; after Fajr and Maghrib three times.
-    </div>
+
   </section>
 
-  <section class="card">
-    <h2>آية الكرسي</h2>
-    <div class="arabic">آيَةُ الْكُرْسِيِّ</div>
-    <div class="trans">Ayatul Kursi</div>
-  </section>
+</div>
 
-</main>
+<!-- THREE SURAHS -->
 
-<footer>
-  لَا تَنْسَوْنَا مِنْ صَالِحِ دُعَائِكُمْ
+<section class="surah-area">
+
+  <div class="surah-title">
+    السور الثلاث · THREE SURAHS
+  </div>
+
+  <div class="surah-grid">
+
+    <div class="surah">
+      <div class="arabic">
+        سُورَةُ الْإِخْلَاصِ
+      </div>
+      <div class="english">
+        Surah Al-Ikhlas
+      </div>
+    </div>
+
+    <div class="surah">
+      <div class="arabic">
+        سُورَةُ الْفَلَقِ
+      </div>
+      <div class="english">
+        Surah Al-Falaq
+      </div>
+    </div>
+
+    <div class="surah">
+      <div class="arabic">
+        سُورَةُ النَّاسِ
+      </div>
+      <div class="english">
+        Surah An-Nas
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- TIMING NOTE -->
+
+<section class="note">
+
+  <div class="card-title">
+    تنبيه
+  </div>
+
+  <div class="arabic">
+    بَعْدَ كُلِّ صَلَاةٍ مَرَّةً وَاحِدَةً،
+    وَبَعْدَ الْفَجْرِ وَالْمَغْرِبِ ثَلَاثَ مَرَّاتٍ
+  </div>
+
+  <div class="english">
+    After each prayer once; after Fajr and Maghrib three times.
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+  <div class="footer-text">
+    لَا تَنْسَوْنَا مِنْ صَالِحِ دُعَائِكُمْ
+  </div>
+
 </footer>
 
 </div>
+
 </body>
 </html>
