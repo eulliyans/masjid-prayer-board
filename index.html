@@ -1131,7 +1131,7 @@ async function loadPrayerTimes() {
     currentLocation;
 
   const method = country === "SA" ? 4 : 1;
-
+  const school = country === "BD" ? 1 : 0;
   const apiDate = getLocationDateForAPI();
 
   const url =
@@ -1139,7 +1139,7 @@ async function loadPrayerTimes() {
     `?latitude=${latitude}` +
     `&longitude=${longitude}` +
     `&method=${method}` +
-    `&school=0` +
+    `&school=${school}` +
     `&timezonestring=${encodeURIComponent(timezone)}`;
 
   try {
