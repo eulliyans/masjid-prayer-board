@@ -823,19 +823,17 @@ padding: 24px 4px;
 </div>
 
 <script>
-/* PRAYER TIMES
-   These are demo values. Replace with local mosque timings.
-*/
 
-const prayerTimes = [
-  { key: "fajr", time: "05:08", icon: "🌙" },
-  { key: "dhuhr", time: "12:07", icon: "☀️" },
-  { key: "asr", time: "15:23", icon: "🌤️" },
-  { key: "maghrib", time: "17:48", icon: "🌇" },
-  { key: "isha", time: "19:18", icon: "🌃" }
-];
-// MOSQUE JAMAAT TIMES
-// Change these values when the mosque confirms its times.
+/* ==========================================
+   EULLIYAN'S PRAYER BOARD
+   LOCATION + GPS + PRAYER TIME ENGINE
+   ========================================== */
+
+let currentLanguage = "en";
+let currentLocation = null;
+let prayerTimes = [];
+let prayerDateLoaded = "";
+let loadingPrayerTimes = false;
 
 const jamaatTimes = {
   fajr: "05:30 AM",
@@ -844,6 +842,64 @@ const jamaatTimes = {
   maghrib: "06:10 PM",
   isha: "07:45 PM"
 };
+
+const cityData = {
+  SA: {
+    name: "Saudi Arabia",
+    cities: {
+      Jeddah: [21.4858, 39.1925, "Asia/Riyadh"],
+      Makkah: [21.3891, 39.8579, "Asia/Riyadh"],
+      Madinah: [24.5247, 39.5692, "Asia/Riyadh"],
+      Riyadh: [24.7136, 46.6753, "Asia/Riyadh"],
+      Dammam: [26.4207, 50.0888, "Asia/Riyadh"],
+      Taif: [21.2703, 40.4158, "Asia/Riyadh"],
+      Abha: [18.2164, 42.5053, "Asia/Riyadh"]
+    }
+  },
+
+  BD: {
+    name: "Bangladesh",
+    cities: {
+      Dhaka: [23.8103, 90.4125, "Asia/Dhaka"],
+      Chattogram: [22.3569, 91.7832, "Asia/Dhaka"],
+      Chittagong: [22.3569, 91.7832, "Asia/Dhaka"],
+      Sylhet: [24.8949, 91.8687, "Asia/Dhaka"],
+      Khulna: [22.8456, 89.5403, "Asia/Dhaka"],
+      Rajshahi: [24.3745, 88.6042, "Asia/Dhaka"]
+    }
+  },
+
+  AE: {
+    name: "United Arab Emirates",
+    cities: {
+      Dubai: [25.2048, 55.2708, "Asia/Dubai"],
+      "Abu Dhabi": [24.4539, 54.3773, "Asia/Dubai"],
+      Sharjah: [25.3463, 55.4209, "Asia/Dubai"],
+      Ajman: [25.4052, 55.5136, "Asia/Dubai"]
+    }
+  },
+
+  IN: {
+    name: "India",
+    cities: {
+      Delhi: [28.6139, 77.2090, "Asia/Kolkata"],
+      Mumbai: [19.0760, 72.8777, "Asia/Kolkata"],
+      Kolkata: [22.5726, 88.3639, "Asia/Kolkata"],
+      Hyderabad: [17.3850, 78.4867, "Asia/Kolkata"]
+    }
+  },
+
+  PK: {
+    name: "Pakistan",
+    cities: {
+      Karachi: [24.8607, 67.0011, "Asia/Karachi"],
+      Lahore: [31.5204, 74.3587, "Asia/Karachi"],
+      Islamabad: [33.6844, 73.0479, "Asia/Karachi"],
+      Peshawar: [34.0151, 71.5249, "Asia/Karachi"]
+    }
+  }
+};
+
 const translations = {
   en: {
     next: "NEXT PRAYER",
@@ -855,7 +911,7 @@ const translations = {
       maghrib: "Maghrib",
       isha: "Isha"
     },
-    notice: "Demo prayer times — configure your local mosque timings before public use."
+    notice: "Prayer times calculated for your selected location."
   },
 
   bn: {
@@ -868,7 +924,7 @@ const translations = {
       maghrib: "মাগরিব",
       isha: "এশা"
     },
-    notice: "ডেমো নামাজের সময় — ব্যবহারের আগে স্থানীয় মসজিদের সময় সেট করুন।"
+    notice: "আপনার নির্বাচিত অবস্থান অনুযায়ী নামাজের সময় গণনা করা হয়েছে।"
   },
 
   ar: {
@@ -881,11 +937,9 @@ const translations = {
       maghrib: "المغرب",
       isha: "العشاء"
     },
-    notice: "أوقات تجريبية — يرجى ضبط مواقيت المسجد المحلي قبل الاستخدام."
+    notice: "تم حساب أوقات الصلاة حسب موقعك المحدد."
   }
 };
-
-let currentLanguage = "en";
 
 const clockElement = document.getElementById("clock");
 const dateElement = document.getElementById("date");
@@ -894,6 +948,128 @@ const nextNameElement = document.getElementById("nextName");
 const countdownElement = document.getElementById("countdown");
 const headingElement = document.getElementById("prayerHeading");
 const noticeElement = document.getElementById("notice");
+
+const countrySelect = document.getElementById("countrySelect");
+const citySelect = document.getElementById("citySelect");
+const locationPanel = document.getElementById("locationPanel");
+const locationButton = document.getElementById("locationButton");
+const gpsButton = document.getElementById("gpsButton");
+const languageButton = document.getElementById("languageButton");
+
+const languageOrder = ["en", "bn", "ar"];
+
+/* ==========================================
+   TIMEZONE FUNCTIONS
+   ========================================== */
+
+function getLocale() {
+  return {
+    en: "en-US",
+    bn: "bn-BD",
+    ar: "ar-SA"
+  }[currentLanguage];
+}
+
+function getLocationDate() {
+  const timezone = currentLocation?.timezone ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).formatToParts(new Date());
+
+  const result = {};
+
+  parts.forEach(p => {
+    result[p.type] = p.value;
+  });
+
+  return `${result.year}-${result.month}-${result.day}`;
+}
+
+function getLocationDateForAPI() {
+  const [year, month, day] = getLocationDate().split("-");
+
+  return `${day}-${month}-${year}`;
+}
+
+function getLocationClock() {
+  const timezone = currentLocation?.timezone ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  return new Intl.DateTimeFormat(getLocale(), {
+    timeZone: timezone,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  }).format(new Date());
+}
+
+function getLocationDateText() {
+  const timezone = currentLocation?.timezone ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  return new Intl.DateTimeFormat(getLocale(), {
+    timeZone: timezone,
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  }).format(new Date());
+}
+
+/* Convert local prayer time to actual instant */
+
+function zonedTimeToDate(dateString, time, timezone) {
+  const [year, month, day] = dateString.split("-").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
+
+  const target = Date.UTC(
+    year, month - 1, day, hour, minute
+  );
+
+  let result = target;
+
+  for (let i = 0; i < 3; i++) {
+    const parts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: timezone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23"
+    }).formatToParts(new Date(result));
+
+    const values = {};
+
+    parts.forEach(p => values[p.type] = Number(p.value));
+
+    const represented = Date.UTC(
+      values.year,
+      values.month - 1,
+      values.day,
+      values.hour,
+      values.minute,
+      values.second
+    );
+
+    result += target - represented;
+  }
+
+  return new Date(result);
+}
+
+/* ==========================================
+   JAMAAT TIMES
+   These remain mosque-specific.
+   GPS will not change these values.
+   ========================================== */
+
 function updateJamaatTimes() {
   Object.keys(jamaatTimes).forEach(key => {
     const element = document.getElementById("jamaat-" + key);
@@ -903,62 +1079,13 @@ function updateJamaatTimes() {
     }
   });
 }
-function getLocale() {
-  if (currentLanguage === "bn") return "bn-BD";
-  if (currentLanguage === "ar") return "ar-SA";
-  return "en-US";
-}
 
-function getPrayerDate(time, baseDate) {
-  const parts = time.split(":");
-  const date = new Date(baseDate);
-
-  date.setHours(
-    Number(parts[0]),
-    Number(parts[1]),
-    0,
-    0
-  );
-
-  return date;
-}
-
-function updateLanguage() {
-  const t = translations[currentLanguage];
-
-  document.documentElement.lang = currentLanguage;
-  document.documentElement.dir =
-    currentLanguage === "ar" ? "rtl" : "ltr";
-
-  nextLabelElement.textContent = t.next;
-  headingElement.textContent = t.heading;
-  noticeElement.textContent = t.notice;
-
-  document.querySelectorAll(".prayer-card").forEach(card => {
-    const key = card.dataset.prayer;
-    const prayer = prayerTimes.find(item => item.key === key);
-
-    if (!prayer) return;
-
-    card.querySelector(".prayer-name").textContent =
-      t.prayers[key];
-
-    card.querySelector(".prayer-time").textContent =
-      formatPrayerTime(prayer.time);
-  });
-
-  document.querySelectorAll(".languages button").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.lang === currentLanguage
-    );
-  });
-}
+/* ==========================================
+   DISPLAY PRAYER TIMES
+   ========================================== */
 
 function formatPrayerTime(time) {
-  const parts = time.split(":");
-  const hour = Number(parts[0]);
-  const minute = Number(parts[1]);
+  const [hour, minute] = time.split(":").map(Number);
 
   const date = new Date();
   date.setHours(hour, minute, 0, 0);
@@ -969,37 +1096,124 @@ function formatPrayerTime(time) {
   });
 }
 
-function updateClock() {
-  const now = new Date();
+function updatePrayerCards() {
+  const t = translations[currentLanguage];
 
-  clockElement.textContent = now.toLocaleTimeString(
-    getLocale(),
-    {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
-    }
-  );
+  document.querySelectorAll(".prayer-card").forEach(card => {
+    const key = card.dataset.prayer;
 
-  dateElement.textContent = now.toLocaleDateString(
-    getLocale(),
-    {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    }
-  );
+    const prayer = prayerTimes.find(
+      item => item.key === key
+    );
 
-  updateNextPrayer(now);
+    card.querySelector(".prayer-name").textContent =
+      t.prayers[key];
+
+    card.querySelector(".prayer-time").textContent =
+      prayer ? formatPrayerTime(prayer.time) : "--:--";
+  });
+
+  document.querySelectorAll("[data-prayer-name]").forEach(el => {
+    el.textContent = t.prayers[el.dataset.prayerName];
+  });
 }
 
+/* ==========================================
+   FETCH REAL PRAYER TIMES
+   ========================================== */
+
+async function loadPrayerTimes() {
+  if (!currentLocation || loadingPrayerTimes) return;
+
+  loadingPrayerTimes = true;
+
+  const { latitude, longitude, timezone, country } =
+    currentLocation;
+
+  const method = country === "SA" ? 4 : 1;
+
+  const apiDate = getLocationDateForAPI();
+
+  const url =
+    `https://api.aladhan.com/v1/timings/${apiDate}` +
+    `?latitude=${latitude}` +
+    `&longitude=${longitude}` +
+    `&method=${method}` +
+    `&school=0` +
+    `&timezonestring=${encodeURIComponent(timezone)}`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Prayer time service unavailable");
+    }
+
+    const result = await response.json();
+
+    if (result.code !== 200 || !result.data?.timings) {
+      throw new Error("Invalid prayer time response");
+    }
+
+    const timings = result.data.timings;
+
+    const newTimes = [
+      { key: "fajr", time: timings.Fajr },
+      { key: "dhuhr", time: timings.Dhuhr },
+      { key: "asr", time: timings.Asr },
+      { key: "maghrib", time: timings.Maghrib },
+      { key: "isha", time: timings.Isha }
+    ].map(item => ({
+      ...item,
+      time: item.time.substring(0, 5)
+    }));
+
+    if (newTimes.some(p => !/^\d{2}:\d{2}$/.test(p.time))) {
+      throw new Error("Invalid prayer time format");
+    }
+
+    prayerTimes = newTimes;
+    prayerDateLoaded = getLocationDate();
+
+    updatePrayerCards();
+    updateClock();
+
+    noticeElement.textContent =
+      translations[currentLanguage].notice;
+
+    console.log("Prayer times updated:", {
+      location: currentLocation,
+      times: prayerTimes
+    });
+
+  } catch (error) {
+    console.error("Prayer time error:", error);
+
+    noticeElement.textContent =
+      "Unable to update prayer times. Check your internet connection.";
+  } finally {
+    loadingPrayerTimes = false;
+  }
+}
+
+/* ==========================================
+   NEXT PRAYER & COUNTDOWN
+   ========================================== */
+
 function updateNextPrayer(now) {
+  if (!prayerTimes.length || !currentLocation) return;
+
+  const today = getLocationDate();
+
   let nextPrayer = null;
   let nextDate = null;
 
   for (const prayer of prayerTimes) {
-    const prayerDate = getPrayerDate(prayer.time, now);
+    const prayerDate = zonedTimeToDate(
+      today,
+      prayer.time,
+      currentLocation.timezone
+    );
 
     if (prayerDate > now) {
       nextPrayer = prayer;
@@ -1008,30 +1222,40 @@ function updateNextPrayer(now) {
     }
   }
 
-  // If all today's prayers have passed, use tomorrow's Fajr.
   if (!nextPrayer) {
+    const [year, month, day] = today.split("-").map(Number);
+
+    const tomorrow = new Date(
+      Date.UTC(year, month - 1, day + 1)
+    );
+
+    const tomorrowString =
+      `${tomorrow.getUTCFullYear()}-` +
+      `${String(tomorrow.getUTCMonth() + 1).padStart(2, "0")}-` +
+      `${String(tomorrow.getUTCDate()).padStart(2, "0")}`;
+
     nextPrayer = prayerTimes[0];
-    nextDate = getPrayerDate(
+
+    nextDate = zonedTimeToDate(
+      tomorrowString,
       nextPrayer.time,
-      new Date(now.getTime() + 24 * 60 * 60 * 1000)
+      currentLocation.timezone
     );
   }
 
-  const difference = Math.max(
+  const seconds = Math.max(
     0,
-    nextDate.getTime() - now.getTime()
+    Math.floor((nextDate - now) / 1000)
   );
 
-  const totalSeconds = Math.floor(difference / 1000);
-
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
 
   countdownElement.textContent = [
     String(hours).padStart(2, "0"),
     String(minutes).padStart(2, "0"),
-    String(seconds).padStart(2, "0")
+    String(secs).padStart(2, "0")
   ].join(":");
 
   nextNameElement.textContent =
@@ -1045,62 +1269,73 @@ function updateNextPrayer(now) {
   });
 }
 
-// Language button actions
-const languageButton =
-  document.getElementById("languageButton");
+function updateClock() {
+  clockElement.textContent = getLocationClock();
+  dateElement.textContent = getLocationDateText();
 
-const languageOrder = ["en", "bn", "ar"];
+  updateNextPrayer(new Date());
+
+  if (
+    currentLocation &&
+    prayerDateLoaded !== getLocationDate()
+  ) {
+    loadPrayerTimes();
+  }
+}
+
+/* ==========================================
+   LANGUAGE SWITCH
+   ========================================== */
 
 languageButton.addEventListener("click", () => {
-  const currentIndex = languageOrder.indexOf(currentLanguage);
+  const index = languageOrder.indexOf(currentLanguage);
 
   currentLanguage =
-    languageOrder[(currentIndex + 1) % languageOrder.length];
+    languageOrder[(index + 1) % languageOrder.length];
 
   languageButton.textContent = {
-  en: "🌐 English",
-  bn: "🌐 বাংলা",
-  ar: "🌐 العربية"
-}[currentLanguage];
+    en: "🌐 English",
+    bn: "🌐 বাংলা",
+    ar: "🌐 العربية"
+  }[currentLanguage];
 
-  updateLanguage();
+  document.documentElement.lang = currentLanguage;
+  document.documentElement.dir =
+    currentLanguage === "ar" ? "rtl" : "ltr";
+
+  const t = translations[currentLanguage];
+
+  nextLabelElement.textContent = t.next;
+  headingElement.textContent = t.heading;
+
+  updatePrayerCards();
   updateClock();
 });
 
-updateJamaatTimes();
-// LOCATION PANEL TOGGLE
-const locationButton = document.getElementById("locationButton");
-const locationPanel = document.getElementById("locationPanel");
+/* ==========================================
+   LOCATION PANEL
+   ========================================== */
 
 locationButton.addEventListener("click", () => {
   locationPanel.hidden = !locationPanel.hidden;
 });
- // COUNTRY AND CITY SELECTION
-
-const countrySelect = document.getElementById("countrySelect");
-const citySelect = document.getElementById("citySelect");
-
-const cityLists = {
-  SA: ["Jeddah", "Makkah", "Madinah", "Riyadh", "Dammam", "Taif", "Abha"],
-  BD: ["Dhaka", "Chittagong", "Sylhet", "Khulna", "Rajshahi"],
-  AE: ["Dubai", "Abu Dhabi", "Sharjah", "Ajman"],
-  IN: ["Delhi", "Mumbai", "Kolkata", "Hyderabad"],
-  PK: ["Karachi", "Lahore", "Islamabad", "Peshawar"]
-};
 
 function loadCities(country) {
-  const cities = cityLists[country] || [];
+  const cities = cityData[country]?.cities || {};
 
-  citySelect.innerHTML = '<option value="">Select City</option>';
+  citySelect.innerHTML =
+    '<option value="">Select City</option>';
 
-  cities.forEach(city => {
+  Object.keys(cities).forEach(city => {
     const option = document.createElement("option");
+
     option.value = city;
     option.textContent = city;
+
     citySelect.appendChild(option);
   });
 
-  citySelect.disabled = cities.length === 0;
+  citySelect.disabled = Object.keys(cities).length === 0;
 }
 
 countrySelect.addEventListener("change", () => {
@@ -1108,50 +1343,111 @@ countrySelect.addEventListener("change", () => {
   citySelect.value = "";
 });
 
-citySelect.addEventListener("change", () => {
-  if (!countrySelect.value || !citySelect.value) return;
+function saveLocation(location) {
+  currentLocation = location;
 
-  localStorage.setItem("prayerLocation", JSON.stringify({
-    country: countrySelect.value,
-    city: citySelect.value
-  }));
+  localStorage.setItem(
+    "prayerLocation",
+    JSON.stringify(location)
+  );
+
+  prayerDateLoaded = "";
+
+  loadPrayerTimes();
+  updateClock();
+}
+
+citySelect.addEventListener("change", () => {
+  const country = countrySelect.value;
+  const city = citySelect.value;
+
+  if (!country || !city) return;
+
+  const data = cityData[country].cities[city];
+
+  if (!data) return;
+
+  saveLocation({
+    country,
+    city,
+    latitude: data[0],
+    longitude: data[1],
+    timezone: data[2],
+    source: "manual"
+  });
 
   locationPanel.hidden = true;
 });
 
-// Restore saved location
-const savedLocation = localStorage.getItem("prayerLocation");
+/* ==========================================
+   RESTORE SAVED LOCATION
+   ========================================== */
 
-if (savedLocation) {
-  const locationData = JSON.parse(savedLocation);
+function restoreLocation() {
+  try {
+    const saved = localStorage.getItem("prayerLocation");
 
-  countrySelect.value = locationData.country;
-  loadCities(locationData.country);
-  citySelect.value = locationData.city;
+    if (!saved) return;
+
+    const location = JSON.parse(saved);
+
+    if (
+      !location.latitude ||
+      !location.longitude ||
+      !location.timezone
+    ) return;
+
+    currentLocation = location;
+
+    if (countrySelect.querySelector(
+      `option[value="${location.country}"]`
+    )) {
+      countrySelect.value = location.country;
+      loadCities(location.country);
+
+      if (
+        ![...citySelect.options].some(
+          option => option.value === location.city
+        )
+      ) {
+        const option = document.createElement("option");
+        option.value = location.city;
+        option.textContent = location.city;
+        citySelect.appendChild(option);
+      }
+
+      citySelect.value = location.city;
+    }
+
+  } catch (error) {
+    console.error("Saved location error:", error);
+  }
 }
-  // GPS LOCATION DETECTION
 
-const gpsButton = document.getElementById("gpsButton");
+/* ==========================================
+   GPS LOCATION
+   ========================================== */
 
 gpsButton.addEventListener("click", () => {
-
   if (!navigator.geolocation) {
     alert("GPS is not supported by this browser.");
     return;
   }
 
+  gpsButton.disabled = true;
   gpsButton.textContent = "Detecting Location...";
 
   navigator.geolocation.getCurrentPosition(
-
-    async (position) => {
-
+    async position => {
       try {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
         const url =
-          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+          `https://api.bigdatacloud.net/data/reverse-geocode-client` +
+          `?latitude=${latitude}` +
+          `&longitude=${longitude}` +
+          `&localityLanguage=en`;
 
         const response = await fetch(url);
 
@@ -1162,16 +1458,44 @@ gpsButton.addEventListener("click", () => {
         const data = await response.json();
 
         const country = data.countryCode;
-        const city = data.city || data.locality;
+        const city =
+          data.city ||
+          data.locality ||
+          data.principalSubdivision ||
+          "GPS Location";
 
-        if (!cityLists[country] || !city) {
-          throw new Error("Country or city not supported");
+        const timezone =
+          Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+        const location = {
+          country,
+          city,
+          latitude,
+          longitude,
+          timezone,
+          source: "gps"
+        };
+
+        // Add a country if it is not in the existing list.
+        if (
+          ![...countrySelect.options].some(
+            option => option.value === country
+          )
+        ) {
+          const option = document.createElement("option");
+          option.value = country;
+          option.textContent = data.countryName || country;
+          countrySelect.appendChild(option);
         }
 
         countrySelect.value = country;
         loadCities(country);
 
-        if (![...citySelect.options].some(option => option.value === city)) {
+        if (
+          ![...citySelect.options].some(
+            option => option.value === city
+          )
+        ) {
           const option = document.createElement("option");
           option.value = city;
           option.textContent = city;
@@ -1180,23 +1504,36 @@ gpsButton.addEventListener("click", () => {
 
         citySelect.value = city;
 
-        localStorage.setItem("prayerLocation", JSON.stringify({
-          country: country,
-          city: city
-        }));
+        saveLocation(location);
 
         locationPanel.hidden = true;
 
-      } catch (error) {
-        alert("Could not identify your city. Please select manually.");
-      }
+        alert(
+          "Location updated successfully: " + city
+        );
 
-      gpsButton.textContent = "📍 Use Current Location (GPS)";
+      } catch (error) {
+        console.error(error);
+
+        alert(
+          "Could not identify your location. Please select manually."
+        );
+
+      } finally {
+        gpsButton.disabled = false;
+        gpsButton.textContent =
+          "📍 Use Current Location (GPS)";
+      }
     },
 
-    (error) => {
-      alert("GPS permission denied or location unavailable.");
-      gpsButton.textContent = "📍 Use Current Location (GPS)";
+    error => {
+      alert(
+        "GPS permission denied or location unavailable."
+      );
+
+      gpsButton.disabled = false;
+      gpsButton.textContent =
+        "📍 Use Current Location (GPS)";
     },
 
     {
@@ -1204,10 +1541,30 @@ gpsButton.addEventListener("click", () => {
       timeout: 15000,
       maximumAge: 0
     }
-
   );
 });
+
+/* ==========================================
+   INITIALIZE
+   ========================================== */
+
+updateJamaatTimes();
+
+restoreLocation();
+
+updateLanguage();
+
+if (currentLocation) {
+  loadPrayerTimes();
+} else {
+  noticeElement.textContent =
+    "Please select your location or use GPS to calculate prayer times.";
+}
+
+updateClock();
+
 setInterval(updateClock, 1000);
+
 </script>
 
 </body>
