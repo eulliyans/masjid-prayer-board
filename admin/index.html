@@ -652,7 +652,7 @@ setMode(currentMode);
   ?"manual_"+name
   :"auto_"+name;
 
- const savedTime=data[column]||data[name]||"";
+ const savedTime=data[column]||"";
 
  document.getElementById("adhan_"+name).value=
   savedTime?String(savedTime).slice(0,5):"";
@@ -699,10 +699,14 @@ async function saveAdhan(){
    const value=document.getElementById("adhan_"+name).value;
 
    if(!value){
-    throw new Error("Enter or calculate all five Adhan times.");
+    throw new Error("Enter all five Adhan times.");
    }
 
-   values[name]=value;
+   const column=currentMode==="manual"
+    ?"manual_"+name
+    :"auto_"+name;
+
+   values[column]=value;
   }
 
   const {error}=await db
@@ -711,7 +715,10 @@ async function saveAdhan(){
 
   if(error) throw error;
 
-  showStatus("Adhan settings saved successfully!");
+  showStatus(
+   currentMode.toUpperCase()+
+   " Adhan settings saved successfully!"
+  );
 
  }catch(error){
   showStatus(error.message);
