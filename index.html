@@ -1448,7 +1448,7 @@ languageButton.addEventListener("click", () => {
 
   currentLanguage =
     languageOrder[(index + 1) % languageOrder.length];
-
+localStorage.setItem("prayerLanguage", currentLanguage);
   languageButton.textContent = {
     en: "🌐 English",
     bn: "🌐 বাংলা",
@@ -1703,7 +1703,8 @@ gpsButton.addEventListener("click", () => {
 /* ==========================================
    INITIALIZE
    ========================================== */
-
+currentLanguage =
+  localStorage.getItem("prayerLanguage") || "en";
 updateJamaatTimes();
 
 restoreLocation();
@@ -1714,7 +1715,26 @@ if (currentLocation) {
   noticeElement.textContent =
     "Please select your location or use GPS to calculate prayer times.";
 }
+const savedLanguage = currentLanguage;
 
+languageButton.textContent = {
+  en: "🌐 English",
+  bn: "🌐 বাংলা",
+  ar: "🌐 العربية"
+}[savedLanguage];
+
+document.documentElement.lang = savedLanguage;
+document.documentElement.dir =
+  savedLanguage === "ar" ? "rtl" : "ltr";
+
+const t = translations[savedLanguage];
+
+nextLabelElement.textContent = t.next;
+headingElement.textContent = t.heading;
+
+document.querySelectorAll("[data-prayer-name]").forEach(el => {
+  el.textContent = t.prayers[el.dataset.prayerName];
+});
 updateClock();
 
 setInterval(updateClock, 1000);
