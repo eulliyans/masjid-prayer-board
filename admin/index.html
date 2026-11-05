@@ -345,20 +345,23 @@ function showSection(section){
 }
 
 function setMode(mode){
- currentMode=mode;
+ currentMode = mode === "manual" ? "manual" : "auto";
 
- document.getElementById("autoBtn").classList.toggle(
-  "activeMode",mode==="auto");
+ const autoBtn = document.getElementById("autoBtn");
+ const manualBtn = document.getElementById("manualBtn");
 
- document.getElementById("manualBtn").classList.toggle(
-  "activeMode",mode==="manual");
+ autoBtn.classList.toggle("activeMode", currentMode === "auto");
+ autoBtn.classList.toggle("secondary", currentMode !== "auto");
+
+ manualBtn.classList.toggle("activeMode", currentMode === "manual");
+ manualBtn.classList.toggle("secondary", currentMode !== "manual");
 
  document.getElementById("calculateBtn").style.display =
-  mode==="auto"?"block":"none";
+  currentMode === "auto" ? "block" : "none";
 
- adhanNames.forEach(name=>{
-  document.getElementById("adhan_"+name).readOnly =
-   mode==="auto";
+ // Admin can adjust individual Adhan times in either mode.
+ adhanNames.forEach(name => {
+  document.getElementById("adhan_" + name).readOnly = false;
  });
 }
 
