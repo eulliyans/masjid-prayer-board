@@ -900,6 +900,7 @@ const cityData = {
   }
 };
 
+
 const translations = {
   en: {
     next: "NEXT PRAYER",
@@ -911,7 +912,29 @@ const translations = {
       maghrib: "Maghrib",
       isha: "Isha"
     },
-    notice: "Prayer times calculated for your selected location."
+    notice: "Prayer times calculated for your selected location.",
+    location: "LOCATION",
+    selectCountry: "Select Country",
+    selectCity: "Select City",
+    gps: "Use Current Location (GPS)",
+    detecting: "Detecting Location...",
+    locationUpdated: "Location updated successfully",
+    locationError: "Could not identify your location. Please select manually.",
+    gpsUnsupported: "GPS is not supported by this browser.",
+    gpsDenied: "GPS permission denied or location unavailable.",
+    loading: "Loading prayer times...",
+    loadError: "Unable to update prayer times. Check your internet connection.",
+    adhan: "ADHAN",
+    jamaat: "JAMAAT",
+    iqamah: "IQAMAH",
+    countdown: "TIME REMAINING",
+    countries: {
+      SA: "Saudi Arabia",
+      BD: "Bangladesh",
+      AE: "United Arab Emirates",
+      IN: "India",
+      PK: "Pakistan"
+    }
   },
 
   bn: {
@@ -924,7 +947,29 @@ const translations = {
       maghrib: "মাগরিব",
       isha: "এশা"
     },
-    notice: "আপনার নির্বাচিত অবস্থান অনুযায়ী নামাজের সময় গণনা করা হয়েছে।"
+    notice: "আপনার নির্বাচিত অবস্থান অনুযায়ী নামাজের সময় গণনা করা হয়েছে।",
+    location: "অবস্থান",
+    selectCountry: "দেশ নির্বাচন করুন",
+    selectCity: "শহর নির্বাচন করুন",
+    gps: "বর্তমান অবস্থান ব্যবহার করুন (GPS)",
+    detecting: "অবস্থান শনাক্ত করা হচ্ছে...",
+    locationUpdated: "অবস্থান সফলভাবে আপডেট হয়েছে",
+    locationError: "আপনার অবস্থান শনাক্ত করা যায়নি। অনুগ্রহ করে ম্যানুয়ালি নির্বাচন করুন।",
+    gpsUnsupported: "এই ব্রাউজারে GPS সমর্থিত নয়।",
+    gpsDenied: "GPS অনুমতি দেওয়া হয়নি অথবা অবস্থান পাওয়া যায়নি।",
+    loading: "নামাজের সময় লোড হচ্ছে...",
+    loadError: "নামাজের সময় আপডেট করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।",
+    adhan: "আজান",
+    jamaat: "জামাত",
+    iqamah: "ইকামত",
+    countdown: "অবশিষ্ট সময়",
+    countries: {
+      SA: "সৌদি আরব",
+      BD: "বাংলাদেশ",
+      AE: "সংযুক্ত আরব আমিরাত",
+      IN: "ভারত",
+      PK: "পাকিস্তান"
+    }
   },
 
   ar: {
@@ -937,9 +982,32 @@ const translations = {
       maghrib: "المغرب",
       isha: "العشاء"
     },
-    notice: "تم حساب أوقات الصلاة حسب موقعك المحدد."
+    notice: "تم حساب أوقات الصلاة حسب موقعك المحدد.",
+    location: "الموقع",
+    selectCountry: "اختر الدولة",
+    selectCity: "اختر المدينة",
+    gps: "استخدم موقعي الحالي (GPS)",
+    detecting: "جارٍ تحديد الموقع...",
+    locationUpdated: "تم تحديث الموقع بنجاح",
+    locationError: "تعذر تحديد موقعك. يرجى الاختيار يدويًا.",
+    gpsUnsupported: "المتصفح لا يدعم GPS.",
+    gpsDenied: "تم رفض إذن GPS أو تعذر تحديد الموقع.",
+    loading: "جارٍ تحميل مواقيت الصلاة...",
+    loadError: "تعذر تحديث مواقيت الصلاة. تحقق من اتصال الإنترنت.",
+    adhan: "الأذان",
+    jamaat: "الجماعة",
+    iqamah: "الإقامة",
+    countdown: "الوقت المتبقي",
+    countries: {
+      SA: "المملكة العربية السعودية",
+      BD: "بنغلاديش",
+      AE: "الإمارات العربية المتحدة",
+      IN: "الهند",
+      PK: "باكستان"
+    }
   }
 };
+
 
 const clockElement = document.getElementById("clock");
 const dateElement = document.getElementById("date");
