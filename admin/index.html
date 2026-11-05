@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#082b28">
+<title>EULLIYAN'S | Mosque Admin</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    background: #082b28;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    margin: 35px auto;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.brand h1 {
+    color: #00b7c3;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.brand p {
+    color: #c8dddd;
+    font-size: 13px;
+}
+
+.panel {
+    background: #103b36;
+    border: 1px solid #28665e;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 21px;
+}
+
+.field {
+    margin: 18px 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid #56847d;
+    background: #082b28;
+    color: white;
+    font-size: 17px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: 0;
+    border-radius: 8px;
+    background: #00b7c3;
+    color: #062b28;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.secondary {
+    background: transparent;
+    color: white;
+    border: 1px solid #56847d;
+}
+
+#dashboard {
+    display: none;
+}
+
+#status {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #b9e9df;
+    overflow-wrap: anywhere;
+}
+
+.note {
+    color: #b8d4cf;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 18px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="brand">
+        <h1>EULLIYAN'S</h1>
+        <p>Digital Mosque Solutions</p>
+    </div>
+
+    <section class="panel" id="loginPanel">
+        <h2>Admin Login</h2>
+
+        <div class="field">
+            <label for="email">Admin Email</label>
+            <input id="email" type="email"
+                   placeholder="Enter admin email"
+                   autocomplete="username">
+        </div>
+
+        <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password"
+                   placeholder="Enter password"
+                   autocomplete="current-password">
+        </div>
+
+        <button id="loginBtn" onclick="login()">LOGIN</button>
+
+        <p class="note">
+            Only authorized mosque administrators can access this panel.
+        </p>
+    </section>
+
+    <section class="panel" id="dashboard">
+        <h2>Jamaat Time Settings</h2>
+
+        <p class="note">
+            Set the local mosque's Jamaat / Iqamah times.
+            These settings are independent of GPS prayer times.
+        </p>
+
+        <div class="field">
+            <label for="fajr">🌅 Fajr</label>
+            <input type="time" id="fajr">
+        </div>
+
+        <div class="field">
+            <label for="dhuhr">☀️ Dhuhr</label>
+            <input type="time" id="dhuhr">
+        </div>
+
+        <div class="field">
+            <label for="asr">📿 Asr</label>
+            <input type="time" id="asr">
+        </div>
+
+        <div class="field">
+            <label for="maghrib">🕋 Maghrib</label>
+            <input type="time" id="maghrib">
+        </div>
+
+        <div class="field">
+            <label for="isha">✨ Isha</label>
+            <input type="time" id="isha">
+        </div>
+
+        <button id="saveBtn" onclick="saveTimes()">
+            SAVE JAMAAT TIMES
+        </button>
+
+        <button class="secondary" onclick="logout()">
+            LOGOUT
+        </button>
+    </section>
+
+    <div id="status" role="status"></div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+
+<script>
+const config = window.SUPABASE_CONFIG;
+
+if (!config || !window.supabase) {
+    document.getElementById("status").textContent =
+        "Configuration error. Please check config.js.";
+}
+
+const db = config && window.supabase
+    ? window.supabase.createClient(
+        config.url,
+        config.publishableKey
+      )
+    : null;
+
+const prayerNames = [
+    "fajr", "dhuhr", "asr", "maghrib", "isha"
+];
+
+function showStatus(message) {
+    document.getElementById("status").textContent = message;
+}
+
+async function verifyAdmin() {
+    const { data: result, error } =
+        await db.rpc("is_mosque_admin");
+
+    if (error) throw error;
+
+    if (result !== true) {
+        throw new Error("This account is not an authorized mosque admin.");
+    }
+}
+
+async function openDashboard() {
+    await verifyAdmin();
+
+    document.getElementById("loginPanel").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+
+    await loadTimes();
+}
+
+async function login() {
+    if (!db) return;
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+        showStatus("Enter your email and password.");
+        return;
+    }
+
+    const button = document.getElementById("loginBtn");
+    button.disabled = true;
+    showStatus("Checking login...");
+
+    try {
+        const { error } = await db.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (error) throw error;
+
+        await openDashboard();
+        showStatus("Admin login successful.");
+
+    } catch (error) {
+        await db.auth.signOut();
+        showStatus(error.message);
+    } finally {
+        button.disabled = false;
+    }
+}
+
+async function loadTimes() {
+    showStatus("Loading Jamaat times...");
+
+    const { data, error } = await db
+        .from("jamaat_settings")
+        .select("fajr,dhuhr,asr,maghrib,isha")
+        .eq("id", 1)
+        .single();
+
+    if (error) throw error;
+
+    prayerNames.forEach(name => {
+        document.getElementById(name).value =
+            data[name] ? data[name].slice(0, 5) : "";
+    });
+
+    showStatus("Jamaat settings loaded.");
+}
+
+async function saveTimes() {
+    const button = document.getElementById("saveBtn");
+    button.disabled = true;
+
+    try {
+        await verifyAdmin();
+
+        const values = {};
+
+        for (const name of prayerNames) {
+            const value = document.getElementById(name).value;
+
+            if (!value) {
+                throw new Error("Please enter all five prayer times.");
+            }
+
+            values[name] = value;
+        }
+
+        values.updated_at = new Date().toISOString();
+
+        const { error } = await db
+            .from("jamaat_settings")
+            .update(values)
+            .eq("id", 1);
+
+        if (error) throw error;
+
+        showStatus("Jamaat times saved successfully!");
+
+    } catch (error) {
+        showStatus(error.message);
+    } finally {
+        button.disabled = false;
+    }
+}
+
+async function logout() {
+    if (!db) return;
+
+    await db.auth.signOut();
+
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("loginPanel").style.display = "block";
+
+    document.getElementById("password").value = "";
+    showStatus("Logged out.");
+}
+
+async function initialize() {
+    if (!db) return;
+
+    try {
+        const { data } = await db.auth.getSession();
+
+        if (data.session) {
+            await openDashboard();
+        }
+    } catch (error) {
+        await db.auth.signOut();
+        showStatus(error.message);
+    }
+}
+
+initialize();
+</script>
+
+</body>
+</html>
