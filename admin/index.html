@@ -110,14 +110,13 @@ Only authorized mosque administrators can access this panel.
 <!-- ADMIN DASHBOARD -->
 <section id="dashboard">
 
-<!-- TWO-BOX MENU -->
 <section class="panel" id="mainMenu">
 <h2>Admin Settings</h2>
 <p class="note">EULLIYAN'S Digital Mosque Management</p>
 
 <button class="menuCard" onclick="showSection('adhan')">
 ☀️ ADHAN / WAQT SETTINGS
-<span>Daily prayer times, GPS location and calculation method</span>
+<span>Daily prayer times, city and calculation method</span>
 </button>
 
 <button class="menuCard" onclick="showSection('jamaat')">
@@ -142,10 +141,10 @@ Configure daily prayer times independently from Jamaat times.
 
 <div class="modeButtons">
 <button id="autoBtn" class="activeMode"
-onclick="setMode('auto')">AUTO MODE</button>
+onclick="switchMode('auto')">AUTO MODE</button>
 
 <button id="manualBtn" class="secondary"
-onclick="setMode('manual')">MANUAL MODE</button>
+onclick="switchMode('manual')">MANUAL MODE</button>
 </div>
 
 <div class="field">
@@ -174,14 +173,6 @@ onclick="setMode('manual')">MANUAL MODE</button>
 </select>
 </div>
 
-<button class="secondary" onclick="useGPS()">
-📍 USE DEVICE GPS
-</button>
-
-<p class="note" id="gpsInfo">
-GPS location has not been selected.
-</p>
-
 <div class="field">
 <label>Calculation Method</label>
 <select id="method">
@@ -205,22 +196,18 @@ GPS location has not been selected.
 <label>🌅 Fajr</label>
 <input type="time" id="adhan_fajr">
 </div>
-
 <div class="prayer">
 <label>☀️ Dhuhr</label>
 <input type="time" id="adhan_dhuhr">
 </div>
-
 <div class="prayer">
 <label>📿 Asr</label>
 <input type="time" id="adhan_asr">
 </div>
-
 <div class="prayer">
 <label>🕋 Maghrib</label>
 <input type="time" id="adhan_maghrib">
 </div>
-
 <div class="prayer">
 <label>✨ Isha</label>
 <input type="time" id="adhan_isha">
@@ -236,6 +223,7 @@ SAVE ADHAN SETTINGS
 
 <p class="note">
 Adhan times and Jamaat times are stored separately.
+GPS location is managed by the main Prayer Board.
 </p>
 </section>
 
@@ -255,22 +243,18 @@ These settings are independent of GPS prayer times.
 <label>🌅 Fajr</label>
 <input type="time" id="fajr">
 </div>
-
 <div class="field">
 <label>☀️ Dhuhr</label>
 <input type="time" id="dhuhr">
 </div>
-
 <div class="field">
 <label>📿 Asr</label>
 <input type="time" id="asr">
 </div>
-
 <div class="field">
 <label>🕋 Maghrib</label>
 <input type="time" id="maghrib">
 </div>
-
 <div class="field">
 <label>✨ Isha</label>
 <input type="time" id="isha">
@@ -281,7 +265,6 @@ SAVE JAMAAT TIMES
 </button>
 
 </section>
-
 </section>
 
 <div id="status" role="status"></div>
@@ -304,7 +287,6 @@ const jamaatNames = ["fajr","dhuhr","asr","maghrib","isha"];
 const adhanNames = ["fajr","dhuhr","asr","maghrib","isha"];
 
 let currentMode = "auto";
-let gpsPosition = null;
 
 function showStatus(message){
  document.getElementById("status").textContent=message;
@@ -323,7 +305,6 @@ async function verifyAdmin(){
  }
 }
 
-/* SHOW TWO-BOX MENU */
 function showMenu(){
  document.getElementById("mainMenu").style.display="block";
  document.getElementById("adhanSection").style.display="none";
@@ -331,7 +312,6 @@ function showMenu(){
  showStatus("");
 }
 
-/* OPEN ONE SETTINGS SECTION */
 function showSection(section){
  document.getElementById("mainMenu").style.display="none";
 
@@ -358,10 +338,38 @@ function setMode(mode){
 
  document.getElementById("calculateBtn").style.display =
   currentMode === "auto" ? "block" : "none";
+}
 
- // Admin can adjust individual Adhan times in either mode.
- adhanNames.forEach(name => {
-  document.getElementById("adhan_" + name).readOnly = false;
+async function switchMode(mode){
+ setMode(mode);
+
+ try{
+  await loadModeTimes(mode);
+  showStatus(mode.toUpperCase()+" mode selected.");
+ }catch(error){
+  showStatus(error.message);
+ }
+}
+
+async function loadModeTimes(mode){
+ const columns = adhanNames.map(name =>
+  (mode==="manual"?"manual_":"auto_")+name
+ );
+
+ const {data,error}=await db
+  .from("adhan_settings")
+  .select(columns.join(","))
+  .eq("id",1)
+  .maybeSingle();
+
+ if(error) throw error;
+
+ adhanNames.forEach(name=>{
+  const column=(mode==="manual"?"manual_":"auto_")+name;
+  const value=data?.[column]||"";
+
+  document.getElementById("adhan_"+name).value=
+   value?String(value).slice(0,5):"";
  });
 }
 
@@ -478,40 +486,13 @@ async function saveTimes(){
  }
 }
 
-function useGPS(){
- if(!navigator.geolocation){
-  showStatus("GPS is not supported.");
-  return;
- }
-
- showStatus("Requesting device GPS...");
-
- navigator.geolocation.getCurrentPosition(
-  position=>{
-   gpsPosition={
-    latitude:position.coords.latitude,
-    longitude:position.coords.longitude
-   };
-
-   document.getElementById("gpsInfo").textContent=
-    "GPS acquired successfully.";
-
-   showStatus("GPS location acquired.");
-  },
-  error=>{
-   showStatus("GPS error: "+error.message);
-  },
-  {enableHighAccuracy:true,timeout:15000,maximumAge:300000}
- );
-}
+/* CITY COORDINATES - NO ADMIN GPS */
 
 async function getCoordinates(){
- if(gpsPosition) return gpsPosition;
-
  const city=document.getElementById("city").value.trim();
 
  if(!city){
-  throw new Error("Enter a city or use device GPS.");
+  throw new Error("Enter a city name first.");
  }
 
  const countries={
@@ -534,17 +515,23 @@ async function getCoordinates(){
   "https://nominatim.openstreetmap.org/search?"+params
  );
 
- if(!response.ok) throw new Error("City lookup failed.");
+ if(!response.ok){
+  throw new Error("City lookup failed.");
+ }
 
  const results=await response.json();
 
- if(!results.length) throw new Error("City not found.");
+ if(!results.length){
+  throw new Error("City not found. Check the city name.");
+ }
 
  return {
   latitude:Number(results[0].lat),
   longitude:Number(results[0].lon)
  };
 }
+
+/* CALCULATE AUTO ADHAN TIMES */
 
 async function calculateTimes(){
  const button=document.getElementById("calculateBtn");
@@ -585,12 +572,11 @@ async function calculateTimes(){
 
   for(const [id,key] of Object.entries(mapping)){
    const match=String(timings[key]).match(/\d{2}:\d{2}/);
+
    if(match){
     document.getElementById("adhan_"+id).value=match[0];
    }
   }
-
-  gpsPosition=location;
 
   if(result.data.meta?.timezone){
    const timezone=result.data.meta.timezone;
@@ -604,7 +590,7 @@ async function calculateTimes(){
   }
 
   showStatus(
-   "Today's Adhan times calculated. Please save the settings."
+   "Today's Adhan times calculated. Please save the AUTO settings."
   );
 
  }catch(error){
@@ -614,6 +600,8 @@ async function calculateTimes(){
  }
 }
 
+/* LOAD ADHAN SETTINGS */
+
 async function loadAdhan(){
  const {data,error}=await db
   .from("adhan_settings")
@@ -622,10 +610,11 @@ async function loadAdhan(){
   .maybeSingle();
 
  if(error) throw error;
-
  if(!data) return;
-currentMode = data.adhan_mode || "auto";
-setMode(currentMode);
+
+ currentMode = data.adhan_mode || "auto";
+ setMode(currentMode);
+
  document.getElementById("country").value=
   data.country_code||"SA";
 
@@ -648,28 +637,18 @@ setMode(currentMode);
   String(data.asr_school??0);
 
  adhanNames.forEach(name=>{
- const column=currentMode==="manual"
-  ?"manual_"+name
-  :"auto_"+name;
+  const column=currentMode==="manual"
+   ?"manual_"+name
+   :"auto_"+name;
 
- const savedTime=data[column]||"";
+  const savedTime=data[column]||"";
 
- document.getElementById("adhan_"+name).value=
-  savedTime?String(savedTime).slice(0,5):"";
-});
-
- if(data.latitude!=null && data.longitude!=null){
-  gpsPosition={
-   latitude:Number(data.latitude),
-   longitude:Number(data.longitude)
-  };
-
-  document.getElementById("gpsInfo").textContent=
-   "Saved GPS coordinates available.";
- }
-
- setMode(data.adhan_mode||"auto");
+  document.getElementById("adhan_"+name).value=
+   savedTime?String(savedTime).slice(0,5):"";
+ });
 }
+
+/* SAVE AUTO OR MANUAL ADHAN */
 
 async function saveAdhan(){
  const button=document.getElementById("saveAdhanBtn");
@@ -690,8 +669,6 @@ async function saveAdhan(){
    asr_school:Number(
     document.getElementById("school").value
    ),
-   latitude:gpsPosition?.latitude??null,
-   longitude:gpsPosition?.longitude??null,
    updated_at:new Date().toISOString()
   };
 
@@ -734,7 +711,6 @@ async function logout(){
 
  document.getElementById("dashboard").style.display="none";
  document.getElementById("loginPanel").style.display="block";
-
  document.getElementById("password").value="";
 
  showStatus("Logged out.");
