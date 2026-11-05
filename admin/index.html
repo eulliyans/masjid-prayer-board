@@ -624,7 +624,8 @@ async function loadAdhan(){
  if(error) throw error;
 
  if(!data) return;
-
+currentMode = data.adhan_mode || "auto";
+setMode(currentMode);
  document.getElementById("country").value=
   data.country_code||"SA";
 
@@ -647,9 +648,15 @@ async function loadAdhan(){
   String(data.asr_school??0);
 
  adhanNames.forEach(name=>{
-  document.getElementById("adhan_"+name).value=
-   data[name]?String(data[name]).slice(0,5):"";
- });
+ const column=currentMode==="manual"
+  ?"manual_"+name
+  :"auto_"+name;
+
+ const savedTime=data[column]||data[name]||"";
+
+ document.getElementById("adhan_"+name).value=
+  savedTime?String(savedTime).slice(0,5):"";
+});
 
  if(data.latitude!=null && data.longitude!=null){
   gpsPosition={
