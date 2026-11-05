@@ -1270,9 +1270,9 @@ async function loadPrayerTimes() {
       throw new Error("Supabase configuration missing.");
     }
 
-    // Load mosque admin settings
+    // Load mosque Adhan settings
     const response = await fetch(
-      `${config.url}/rest/v1/adhan_settings?id=eq.1&select=adhan_mode,country_code,city,timezone,calculation_method,asr_school,latitude,longitude,fajr,dhuhr,asr,maghrib,isha`,
+      `${config.url}/rest/v1/adhan_settings?id=eq.1&select=adhan_mode,calculation_method,asr_school,manual_fajr,manual_dhuhr,manual_asr,manual_maghrib,manual_isha`,
       {
         cache: "no-store",
         headers: {
@@ -1289,46 +1289,32 @@ async function loadPrayerTimes() {
     const rows = await response.json();
     const settings = rows.length ? rows[0] : null;
 
-    // Use mosque timezone
     const timezone =
-      settings?.timezone ||
       currentLocation?.timezone ||
       Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    if (settings) {
-      currentLocation = {
-        ...(currentLocation || {}),
-        country: settings.country_code || currentLocation?.country,
-        city: settings.city || currentLocation?.city,
-        latitude: settings.latitude != null
-          ? Number(settings.latitude)
-          : currentLocation?.latitude,
-        longitude: settings.longitude != null
-          ? Number(settings.longitude)
-          : currentLocation?.longitude,
-        timezone,
-        source: "admin"
-      };
-    }
+    const mode = String(
+      settings?.adhan_mode || "auto"
+    ).toLowerCase();
 
-    const mode = settings?.adhan_mode || "auto";
-
-    // MANUAL MODE: use saved mosque times
+    // MANUAL MODE: use committee saved times
     if (mode === "manual") {
 
       const newTimes = [
-        { key: "fajr", time: settings.fajr },
-        { key: "dhuhr", time: settings.dhuhr },
-        { key: "asr", time: settings.asr },
-        { key: "maghrib", time: settings.maghrib },
-        { key: "isha", time: settings.isha }
+        { key: "fajr", time: settings?.manual_fajr },
+        { key: "dhuhr", time: settings?.manual_dhuhr },
+        { key: "asr", time: settings?.manual_asr },
+        { key: "maghrib", time: settings?.manual_maghrib },
+        { key: "isha", time: settings?.manual_isha }
       ].map(item => ({
         ...item,
         time: String(item.time || "").slice(0, 5)
       }));
 
       if (newTimes.some(p => !/^\d{2}:\d{2}$/.test(p.time))) {
-        throw new Error("Admin has not saved all five Adhan times.");
+        throw new Error(
+          "Admin has not saved all five MANUAL Adhan times."
+        );
       }
 
       prayerTimes = newTimes;
@@ -1345,23 +1331,32 @@ async function loadPrayerTimes() {
       return;
     }
 
-    // AUTO MODE: use saved admin GPS coordinates
-    const latitude = settings?.latitude ?? currentLocation?.latitude;
-    const longitude = settings?.longitude ?? currentLocation?.longitude;
-
-    if (latitude == null || longitude == null) {
-      throw new Error("Please configure GPS coordinates in Admin Settings.");
+    // AUTO MODE: use Prayer Board GPS or selected location
+    if (
+      !currentLocation ||
+      currentLocation.latitude == null ||
+      currentLocation.longitude == null
+    ) {
+      throw new Error(
+        "Please detect GPS or select your location on the Prayer Board."
+      );
     }
 
-    const method = Number(settings?.calculation_method ?? 4);
+    const latitude = currentLocation.latitude;
+    const longitude = currentLocation.longitude;
+
+    const method = Number(
+      settings?.calculation_method ?? 4
+    );
+
     const rawSchool = settings?.asr_school;
 
-const school =
-  rawSchool === "1" ||
-  rawSchool === 1 ||
-  rawSchool === "hanafi"
-    ? 1
-    : 0;
+    const school =
+      rawSchool === "1" ||
+      rawSchool === 1 ||
+      rawSchool === "hanafi"
+        ? 1
+        : 0;
 
     const apiDate = getLocationDateForAPI();
 
@@ -1415,6 +1410,7 @@ const school =
   } catch (error) {
     console.error("Prayer time error:", error);
     noticeElement.textContent = error.message;
+
   } finally {
     loadingPrayerTimes = false;
   }
