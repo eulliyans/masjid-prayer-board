@@ -1191,41 +1191,135 @@ function updatePrayerCards() {
    ========================================== */
 
 async function loadPrayerTimes() {
-  if (!currentLocation || loadingPrayerTimes) return;
+  if (loadingPrayerTimes) return;
 
   loadingPrayerTimes = true;
 
-  const { latitude, longitude, timezone, country } =
-    currentLocation;
-
-  const method = country === "SA" ? 4 : 1;
-  const school = country === "BD" ? 1 : 0;
-  const apiDate = getLocationDateForAPI();
-
-  const url =
-    `https://api.aladhan.com/v1/timings/${apiDate}` +
-    `?latitude=${latitude}` +
-    `&longitude=${longitude}` +
-    `&method=${method}` +
-    `&school=${school}` +
-    `&timezonestring=${encodeURIComponent(timezone)}`;
-
   try {
-    const response = await fetch(url);
+    const config = window.SUPABASE_CONFIG;
 
-    if (!response.ok) {
-      throw new Error("Prayer time service unavailable");
+    if (!config || !config.url || !config.publishableKey) {
+      throw new Error("Supabase configuration missing.");
     }
 
-    const result = await response.json();
+    // Load mosque admin settings
+    const response = await fetch(
+      `${config.url}/rest/v1/adhan_settings?id=eq.1&select=adhan_mode,country_code,city,timezone,calculation_method,asr_school,latitude,longitude,fajr,dhuhr,asr,maghrib,isha`,
+      {
+        cache: "no-store",
+        headers: {
+          apikey: config.publishableKey,
+          Authorization: `Bearer ${config.publishableKey}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Could not load mosque Adhan settings.");
+    }
+
+    const rows = await response.json();
+    const settings = rows.length ? rows[0] : null;
+
+    // Use mosque timezone
+    const timezone =
+      settings?.timezone ||
+      currentLocation?.timezone ||
+      Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    if (settings) {
+      currentLocation = {
+        ...(currentLocation || {}),
+        country: settings.country_code || currentLocation?.country,
+        city: settings.city || currentLocation?.city,
+        latitude: settings.latitude != null
+          ? Number(settings.latitude)
+          : currentLocation?.latitude,
+        longitude: settings.longitude != null
+          ? Number(settings.longitude)
+          : currentLocation?.longitude,
+        timezone,
+        source: "admin"
+      };
+    }
+
+    const mode = settings?.adhan_mode || "auto";
+
+    // MANUAL MODE: use saved mosque times
+    if (mode === "manual") {
+
+      const newTimes = [
+        { key: "fajr", time: settings.fajr },
+        { key: "dhuhr", time: settings.dhuhr },
+        { key: "asr", time: settings.asr },
+        { key: "maghrib", time: settings.maghrib },
+        { key: "isha", time: settings.isha }
+      ].map(item => ({
+        ...item,
+        time: String(item.time || "").slice(0, 5)
+      }));
+
+      if (newTimes.some(p => !/^\d{2}:\d{2}$/.test(p.time))) {
+        throw new Error("Admin has not saved all five Adhan times.");
+      }
+
+      prayerTimes = newTimes;
+      prayerDateLoaded = getLocationDate();
+
+      updatePrayerCards();
+      updateClock();
+
+      noticeElement.textContent =
+        "Mosque Adhan times configured by the administrator.";
+
+      console.log("Manual Adhan times loaded:", prayerTimes);
+
+      return;
+    }
+
+    // AUTO MODE: use saved admin GPS coordinates
+    const latitude = settings?.latitude ?? currentLocation?.latitude;
+    const longitude = settings?.longitude ?? currentLocation?.longitude;
+
+    if (latitude == null || longitude == null) {
+      throw new Error("Please configure GPS coordinates in Admin Settings.");
+    }
+
+    const method = Number(settings?.calculation_method ?? 4);
+    const rawSchool = settings?.asr_school;
+
+const school =
+  rawSchool === "1" ||
+  rawSchool === 1 ||
+  rawSchool === "hanafi"
+    ? 1
+    : 0;
+
+    const apiDate = getLocationDateForAPI();
+
+    const url =
+      `https://api.aladhan.com/v1/timings/${apiDate}` +
+      `?latitude=${latitude}` +
+      `&longitude=${longitude}` +
+      `&method=${method}` +
+      `&school=${school}` +
+      `&timezonestring=${encodeURIComponent(timezone)}`;
+
+    const prayerResponse = await fetch(url);
+
+    if (!prayerResponse.ok) {
+      throw new Error("Prayer time service unavailable.");
+    }
+
+    const result = await prayerResponse.json();
 
     if (result.code !== 200 || !result.data?.timings) {
-      throw new Error("Invalid prayer time response");
+      throw new Error("Prayer calculation failed.");
     }
 
     const timings = result.data.timings;
 
-    const newTimes = [
+    prayerTimes = [
       { key: "fajr", time: timings.Fajr },
       { key: "dhuhr", time: timings.Dhuhr },
       { key: "asr", time: timings.Asr },
@@ -1233,14 +1327,13 @@ async function loadPrayerTimes() {
       { key: "isha", time: timings.Isha }
     ].map(item => ({
       ...item,
-      time: item.time.substring(0, 5)
+      time: String(item.time).substring(0, 5)
     }));
 
-    if (newTimes.some(p => !/^\d{2}:\d{2}$/.test(p.time))) {
-      throw new Error("Invalid prayer time format");
+    if (prayerTimes.some(p => !/^\d{2}:\d{2}$/.test(p.time))) {
+      throw new Error("Invalid prayer time format.");
     }
 
-    prayerTimes = newTimes;
     prayerDateLoaded = getLocationDate();
 
     updatePrayerCards();
@@ -1249,16 +1342,11 @@ async function loadPrayerTimes() {
     noticeElement.textContent =
       translations[currentLanguage].notice;
 
-    console.log("Prayer times updated:", {
-      location: currentLocation,
-      times: prayerTimes
-    });
+    console.log("Automatic Adhan times loaded:", prayerTimes);
 
   } catch (error) {
     console.error("Prayer time error:", error);
-
-    noticeElement.textContent =
-      "Unable to update prayer times. Check your internet connection.";
+    noticeElement.textContent = error.message;
   } finally {
     loadingPrayerTimes = false;
   }
@@ -1620,8 +1708,6 @@ updateJamaatTimes();
 
 restoreLocation();
 
-updateLanguage();
-
 if (currentLocation) {
   loadPrayerTimes();
 } else {
@@ -1632,7 +1718,7 @@ if (currentLocation) {
 updateClock();
 
 setInterval(updateClock, 1000);
-
+setInterval(loadPrayerTimes, 60000);
 </script>
 
 </body>
