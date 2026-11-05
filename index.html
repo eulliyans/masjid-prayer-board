@@ -821,7 +821,7 @@ padding: 24px 4px;
   </footer>
 
 </div>
-
+<script src="config.js"></script>
 <script>
 
 /* ==========================================
@@ -1079,6 +1079,74 @@ function updateJamaatTimes() {
     }
   });
 }
+
+// EULLIYAN'S - Load Jamaat Times from Supabase
+
+function formatSupabaseTime(value) {
+    if (!value) return null;
+
+    const parts = value.slice(0, 5).split(":");
+    const hours = Number(parts[0]);
+    const minutes = Number(parts[1]);
+
+    const period = hours >= 12 ? "PM" : "AM";
+    const displayHour = hours % 12 || 12;
+
+    return `${String(displayHour).padStart(2, "0")}:${String(minutes).padStart(2, "0")} ${period}`;
+}
+
+async function loadJamaatTimesFromSupabase() {
+    try {
+        const config = window.SUPABASE_CONFIG;
+
+        if (!config || !config.url || !config.publishableKey) {
+            console.error("Supabase configuration not found.");
+            return;
+        }
+
+        const response = await fetch(
+            `${config.url}/rest/v1/jamaat_settings?id=eq.1&select=fajr,dhuhr,asr,maghrib,isha`,
+            {
+                method: "GET",
+                cache: "no-store",
+                headers: {
+                    "apikey": config.publishableKey,
+                    "Authorization": `Bearer ${config.publishableKey}`
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Supabase error: ${response.status}`);
+        }
+
+        const rows = await response.json();
+
+        if (!rows.length) {
+            console.warn("No Jamaat settings found in Supabase.");
+            return;
+        }
+
+        const data = rows[0];
+
+        jamaatTimes.fajr = formatSupabaseTime(data.fajr) || jamaatTimes.fajr;
+        jamaatTimes.dhuhr = formatSupabaseTime(data.dhuhr) || jamaatTimes.dhuhr;
+        jamaatTimes.asr = formatSupabaseTime(data.asr) || jamaatTimes.asr;
+        jamaatTimes.maghrib = formatSupabaseTime(data.maghrib) || jamaatTimes.maghrib;
+        jamaatTimes.isha = formatSupabaseTime(data.isha) || jamaatTimes.isha;
+
+        updateJamaatTimes();
+
+        console.log("Jamaat times loaded from Supabase.");
+
+    } catch (error) {
+        console.error("Jamaat time loading failed:", error);
+    }
+}
+
+// Load immediately and refresh every 60 seconds
+loadJamaatTimesFromSupabase();
+setInterval(loadJamaatTimesFromSupabase, 60000);
 
 /* ==========================================
    DISPLAY PRAYER TIMES
